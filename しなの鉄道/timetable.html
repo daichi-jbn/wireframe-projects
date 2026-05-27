@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>しなの鉄道 時刻表・運賃｜ワイヤーフレーム</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #e8e8e8; color: #222; font-size: 13px; }
+.page { width: 100%; background: #fff; }
+.section-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.section { padding: 56px 0; border-bottom: 1px solid #ddd; }
+.section-label { font-size: 10px; color: #888; letter-spacing: 0.08em; margin-bottom: 4px; }
+.section-title { font-size: 30px; font-weight: bold; border-left: 4px solid #444; padding-left: 10px; margin-bottom: 32px; line-height: 1.3; margin-top: 0; }
+.section-sub { color: #666; font-size: 12px; margin-bottom: 28px; line-height: 2; }
+.placeholder { background: #e0e0e0; border: 1px dashed #aaa; display: flex; align-items: center; justify-content: center; color: #888; font-size: 11px; flex-direction: column; gap: 4px; }
+.card { background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; padding: 16px; }
+.note { font-size: 12px; color: #888; margin-top: 6px; padding-left: 1em; text-indent: -1em; line-height: 2; }
+p { line-height: 2; }
+.tag { display: inline-block; background: #ddd; border-radius: 2px; padding: 2px 8px; font-size: 10px; margin-right: 4px; margin-bottom: 4px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.btn { display: inline-block; padding: 10px 24px; background: #222; color: #fff; font-size: 13px; font-weight: bold; border-radius: 3px; text-decoration: none; }
+.btn-outline { display: inline-block; padding: 8px 20px; border: 1px solid #444; color: #222; font-size: 12px; border-radius: 3px; text-decoration: none; }
+.anchor-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.anchor-nav a { color: #333; text-decoration: none; font-size: 12px; padding: 4px 12px; border: 1px solid #ccc; border-radius: 2px; background: #f5f5f5; white-space: nowrap; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+table th { background: #eee; padding: 10px; border: 1px solid #ccc; text-align: center; font-weight: bold; }
+table td { padding: 10px; border: 1px solid #ccc; text-align: center; color: #444; }
+.hl td { background: #f0f0f0; }
+
+/* HEADER */
+.header { background: #fff; border-bottom: 2px solid #222; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; position: sticky; top: 0; z-index: 200; }
+.header-logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 15px; text-decoration: none; color: #222; }
+.header-nav { display: flex; gap: 28px; color: #444; font-size: 13px; }
+.header-nav a { color: #444; text-decoration: none; }
+.header-nav a.active { font-weight: bold; border-bottom: 2px solid #222; padding-bottom: 2px; }
+.hamburger { display: none; font-size: 22px; cursor: pointer; background: none; border: none; }
+.mobile-menu { display: none; flex-direction: column; background: #fff; border-bottom: 1px solid #ddd; padding: 12px 24px; }
+.mobile-menu a { font-size: 14px; color: #222; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: block; }
+.mobile-menu a.active { font-weight: bold; }
+.mobile-menu.open { display: flex; }
+
+/* パンくず */
+.breadcrumb { background: #f5f5f5; border-bottom: 1px solid #e0e0e0; padding: 10px 40px; }
+.breadcrumb-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; font-size: 11px; color: #888; align-items: center; }
+.breadcrumb-inner a { color: #666; text-decoration: none; }
+.breadcrumb-inner span { color: #888; }
+
+/* 時刻表テーブル */
+.timetable { width: 100%; border-collapse: collapse; font-size: 12px; }
+.timetable th { background: #333; color: #fff; padding: 10px 8px; border: 1px solid #555; text-align: center; font-weight: bold; }
+.timetable td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+.timetable tr:nth-child(even) td { background: #f9f9f9; }
+.timetable .time { font-weight: bold; color: #222; }
+.timetable .late { color: #666; }
+.timetable .limited { background: #eee; font-weight: bold; }
+
+/* 検索フォーム */
+.search-form { background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; padding: 24px; margin-bottom: 24px; }
+.form-row { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-label { font-size: 11px; color: #666; font-weight: bold; }
+.form-select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; background: #fff; min-width: 120px; }
+.form-input { padding: 8px 12px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; background: #fff; }
+
+/* TABLET 600〜1023px */
+@media (max-width: 1023px) {
+  .header-nav { display: none; }
+  .hamburger { display: block; }
+}
+
+/* MOBILE 〜599px */
+@media (max-width: 599px) {
+  .section-wrap { padding: 0 16px; }
+  .section { padding: 32px 0; }
+  .section-title { font-size: 28px; margin-bottom: 24px; }
+  .grid2 { grid-template-columns: 1fr; }
+  .header { padding: 0 16px; }
+  .breadcrumb { padding: 10px 16px; }
+  .anchor-nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .table-wrap { overflow-x: auto; }
+  .form-row { flex-direction: column; }
+  .form-select, .form-input { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="top.html" class="header-logo">
+      <div class="placeholder" style="width:32px;height:32px;border-radius:2px;flex-shrink:0;">LOGO</div>
+      しなの鉄道
+    </a>
+    <nav class="header-nav">
+      <a href="top.html">トップ</a>
+      <a href="ticket.html">きっぷ・乗車券</a>
+      <a href="timetable.html" class="active">時刻表・運賃</a>
+      <a href="suica_wireframe_v6.html">Suicaサービス</a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="top.html">トップ</a>
+    <a href="ticket.html">きっぷ・乗車券</a>
+    <a href="timetable.html" class="active">時刻表・運賃</a>
+    <a href="suica_wireframe_v6.html">Suicaサービス</a>
+  </div>
+
+  <!-- パンくず -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="top.html">トップ</a>
+      <span>›</span>
+      <span>時刻表・運賃</span>
+    </div>
+  </div>
+
+  <!-- ページタイトル -->
+  <div style="background:#333;color:#fff;padding:40px 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div style="font-size:11px;color:#aaa;margin-bottom:8px;letter-spacing:0.1em;">TIMETABLE &amp; FARE</div>
+      <div style="font-size:28px;font-weight:bold;">時刻表・運賃</div>
+    </div>
+  </div>
+
+  <!-- アンカーナビ -->
+  <div style="background:#f9f9f9;border-bottom:1px solid #e0e0e0;padding:16px 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="anchor-nav">
+        <a href="#timetable">時刻表</a>
+        <a href="#fare">運賃検索</a>
+        <a href="#faretable">運賃表</a>
+        <a href="#operation">運行情報</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 時刻表 -->
+  <div class="section" id="timetable">
+    <div class="section-wrap">
+      <div class="section-label">TIMETABLE</div>
+      <div class="section-title">時刻表</div>
+      <div class="section-sub">駅・路線・方面を選択して時刻表を確認できます</div>
+
+      <!-- 検索フォーム -->
+      <div class="search-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">路線を選択</label>
+            <select class="form-select">
+              <option>しなの鉄道線</option>
+              <option>北しなの線</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">駅を選択</label>
+            <select class="form-select">
+              <option>軽井沢</option>
+              <option>中軽井沢</option>
+              <option>信濃追分</option>
+              <option>御代田</option>
+              <option>小諸</option>
+              <option>上田</option>
+              <option>長野</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">方面</label>
+            <select class="form-select">
+              <option>上り（長野方面）</option>
+              <option>下り（軽井沢方面）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">種別</label>
+            <select class="form-select">
+              <option>平日</option>
+              <option>土休日</option>
+            </select>
+          </div>
+          <button class="btn" style="cursor:pointer;">時刻表を表示</button>
+        </div>
+      </div>
+
+      <!-- ダミー時刻表 -->
+      <div style="margin-bottom:8px;font-weight:bold;font-size:13px;">軽井沢駅　上り（長野方面）　平日</div>
+      <div class="table-wrap">
+        <table class="timetable">
+          <thead>
+            <tr>
+              <th style="width:60px;">時</th>
+              <th>発車時刻</th>
+              <th>種別</th>
+              <th>行先</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="time">6</td><td>6:02　6:38</td><td>普通　普通</td><td>長野　上田</td><td>—</td></tr>
+            <tr class="hl"><td class="time">7</td><td>7:05　7:22　7:50</td><td>普通　普通　普通</td><td>長野　上田　長野</td><td>—</td></tr>
+            <tr><td class="time">8</td><td>8:10　8:35　8:58</td><td>普通　普通　普通</td><td>上田　長野　長野</td><td>—</td></tr>
+            <tr class="hl"><td class="time">9</td><td>9:12　9:45</td><td>普通　普通</td><td>長野　上田</td><td>—</td></tr>
+            <tr><td class="time">10</td><td>10:08　10:40</td><td>普通　普通</td><td>長野　長野</td><td>—</td></tr>
+            <tr class="hl"><td class="time">11</td><td>11:15　11:50</td><td>普通　普通</td><td>上田　長野</td><td>—</td></tr>
+            <tr><td class="time">12</td><td>12:05　12:38</td><td>普通　普通</td><td>長野　長野</td><td>—</td></tr>
+            <tr class="hl"><td class="time">13</td><td>13:10　13:45</td><td>普通　普通</td><td>上田　長野</td><td>—</td></tr>
+            <tr><td class="time">14</td><td>14:02　14:30</td><td>普通　普通</td><td>長野　長野</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">※ 上記はダミーデータです。実際の時刻表とは異なります。</p>
+      <p class="note">※ 時刻は変更になる場合があります。最新情報をご確認ください。</p>
+    </div>
+  </div>
+
+  <!-- 運賃検索 -->
+  <div class="section" id="fare">
+    <div class="section-wrap">
+      <div class="section-label">FARE SEARCH</div>
+      <div class="section-title">運賃検索</div>
+      <div class="section-sub">出発駅と到着駅を選択して運賃を調べることができます</div>
+
+      <div class="search-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">出発駅</label>
+            <select class="form-select">
+              <option>軽井沢</option>
+              <option>中軽井沢</option>
+              <option>信濃追分</option>
+              <option>御代田</option>
+              <option>小諸</option>
+              <option>上田</option>
+              <option>長野</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end;padding-bottom:8px;font-size:18px;color:#888;">⇄</div>
+          <div class="form-group">
+            <label class="form-label">到着駅</label>
+            <select class="form-select">
+              <option>長野</option>
+              <option>上田</option>
+              <option>小諸</option>
+              <option>御代田</option>
+              <option>信濃追分</option>
+              <option>中軽井沢</option>
+              <option>軽井沢</option>
+            </select>
+          </div>
+          <button class="btn" style="cursor:pointer;">運賃を調べる</button>
+        </div>
+      </div>
+
+      <!-- 検索結果エリア（ダミー） -->
+      <div style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:24px;">
+        <div style="font-size:11px;color:#888;margin-bottom:8px;">検索結果（ダミー表示）</div>
+        <div style="display:flex;gap:24px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+          <div style="font-size:16px;font-weight:bold;">軽井沢　→　長野</div>
+          <div style="font-size:11px;color:#888;">所要時間：約65分</div>
+        </div>
+        <div class="grid2">
+          <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:16px;text-align:center;">
+            <div style="font-size:11px;color:#888;margin-bottom:4px;">大人</div>
+            <div style="font-size:28px;font-weight:bold;">1,340<span style="font-size:14px;">円</span></div>
+          </div>
+          <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:16px;text-align:center;">
+            <div style="font-size:11px;color:#888;margin-bottom:4px;">こども（半額）</div>
+            <div style="font-size:28px;font-weight:bold;">670<span style="font-size:14px;">円</span></div>
+          </div>
+        </div>
+        <p class="note">※ Suica・交通系ICカードご利用の場合も同額です。</p>
+        <p class="note">※ 上記はダミーデータです。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 運賃表 -->
+  <div class="section" id="faretable">
+    <div class="section-wrap">
+      <div class="section-label">FARE TABLE</div>
+      <div class="section-title">運賃表</div>
+      <div class="section-sub">主要区間の運賃一覧です（ダミーデータ）</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>区間</th>
+              <th>営業キロ</th>
+              <th>大人（円）</th>
+              <th>こども（円）</th>
+              <th>IC運賃（大人）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>軽井沢〜中軽井沢</td><td>4.1km</td><td>200</td><td>100</td><td>200</td></tr>
+            <tr class="hl"><td>軽井沢〜御代田</td><td>11.2km</td><td>370</td><td>190</td><td>366</td></tr>
+            <tr><td>軽井沢〜小諸</td><td>17.3km</td><td>580</td><td>290</td><td>577</td></tr>
+            <tr class="hl"><td>軽井沢〜上田</td><td>30.1km</td><td>1,050</td><td>530</td><td>1,046</td></tr>
+            <tr><td>軽井沢〜長野</td><td>65.1km</td><td>1,340</td><td>670</td><td>1,335</td></tr>
+            <tr class="hl"><td>小諸〜上田</td><td>12.8km</td><td>480</td><td>240</td><td>475</td></tr>
+            <tr><td>小諸〜長野</td><td>47.8km</td><td>900</td><td>450</td><td>896</td></tr>
+            <tr class="hl"><td>上田〜長野</td><td>35.0km</td><td>750</td><td>380</td><td>745</td></tr>
+            <tr><td>長野〜牟礼</td><td>18.9km</td><td>480</td><td>240</td><td>476</td></tr>
+            <tr class="hl"><td>長野〜飯山</td><td>27.4km</td><td>680</td><td>340</td><td>676</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">※ 上記はダミーデータです。実際の運賃とは異なる場合があります。</p>
+      <p class="note">※ IC運賃は交通系ICカード（Suica等）ご利用時の運賃です（1円単位）。</p>
+    </div>
+  </div>
+
+  <!-- 運行情報 -->
+  <div class="section" id="operation">
+    <div class="section-wrap">
+      <div class="section-label">OPERATION INFO</div>
+      <div class="section-title">運行情報</div>
+      <div class="section-sub">現在の運行状況をご確認ください</div>
+      <div style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:20px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="background:#444;color:#fff;padding:4px 12px;border-radius:2px;font-size:12px;font-weight:bold;">平常運転</div>
+          <div style="font-size:12px;color:#555;">2026年5月15日 9:00時点</div>
+        </div>
+        <div style="font-size:13px;margin-bottom:4px;">しなの鉄道線、北しなの線ともに平常通り運転しています。</div>
+        <p class="note">※ この情報はダミーです。実際の運行情報はリアルタイムで更新されます。</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;">遅延・運休情報の確認方法</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;">
+            <div>・ しなの鉄道公式サイト（本ページ）</div>
+            <div>・ しなの鉄道公式X（旧Twitter）</div>
+            <div>・ 駅掲示板・車内放送</div>
+            <div>・ 各交通情報アプリ</div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;">振替輸送について</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;">
+            大幅な遅延や運休が発生した場合、JR線等の振替輸送を実施することがあります。詳細は駅係員または車内放送でご案内します。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#222;color:#aaa;padding:32px 40px;font-size:12px;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <div style="font-weight:bold;color:#fff;font-size:14px;">しなの鉄道株式会社</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="top.html" style="color:#aaa;text-decoration:none;">トップ</a>
+        <a href="ticket.html" style="color:#aaa;text-decoration:none;">きっぷ・乗車券</a>
+        <a href="timetable.html" style="color:#aaa;text-decoration:none;">時刻表・運賃</a>
+        <a href="suica_wireframe_v6.html" style="color:#aaa;text-decoration:none;">Suicaサービス</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:16px auto 0;border-top:1px solid #444;padding-top:16px;">
+      © 2026 しなの鉄道株式会社　※ このページはワイヤーフレームです
+    </div>
+  </div>
+
+</div>
+<script>
+document.querySelector('.hamburger').addEventListener('click', function() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+</script>
+</body>
+</html>

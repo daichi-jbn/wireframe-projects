@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>しなの鉄道 きっぷ・乗車券｜ワイヤーフレーム</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #e8e8e8; color: #222; font-size: 13px; }
+.page { width: 100%; background: #fff; }
+.section-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.section { padding: 56px 0; border-bottom: 1px solid #ddd; }
+.section-label { font-size: 10px; color: #888; letter-spacing: 0.08em; margin-bottom: 4px; }
+.section-title { font-size: 30px; font-weight: bold; border-left: 4px solid #444; padding-left: 10px; margin-bottom: 32px; line-height: 1.3; margin-top: 0; }
+.section-sub { color: #666; font-size: 12px; margin-bottom: 28px; line-height: 2; }
+.placeholder { background: #e0e0e0; border: 1px dashed #aaa; display: flex; align-items: center; justify-content: center; color: #888; font-size: 11px; flex-direction: column; gap: 4px; }
+.card { background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; padding: 16px; }
+.note { font-size: 12px; color: #888; margin-top: 6px; padding-left: 1em; text-indent: -1em; line-height: 2; }
+p { line-height: 2; }
+.tag { display: inline-block; background: #ddd; border-radius: 2px; padding: 2px 8px; font-size: 10px; margin-right: 4px; margin-bottom: 4px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.btn { display: inline-block; padding: 10px 24px; background: #222; color: #fff; font-size: 13px; font-weight: bold; border-radius: 3px; text-decoration: none; }
+.btn-outline { display: inline-block; padding: 8px 20px; border: 1px solid #444; color: #222; font-size: 12px; border-radius: 3px; text-decoration: none; }
+.anchor-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.anchor-nav a { color: #333; text-decoration: none; font-size: 12px; padding: 4px 12px; border: 1px solid #ccc; border-radius: 2px; background: #f5f5f5; white-space: nowrap; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+table th { background: #eee; padding: 10px; border: 1px solid #ccc; text-align: center; font-weight: bold; }
+table td { padding: 10px; border: 1px solid #ccc; text-align: center; color: #444; }
+.hl td { background: #f0f0f0; }
+
+/* HEADER */
+.header { background: #fff; border-bottom: 2px solid #222; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; position: sticky; top: 0; z-index: 200; }
+.header-logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 15px; text-decoration: none; color: #222; }
+.header-nav { display: flex; gap: 28px; color: #444; font-size: 13px; }
+.header-nav a { color: #444; text-decoration: none; }
+.header-nav a.active { font-weight: bold; border-bottom: 2px solid #222; padding-bottom: 2px; }
+.hamburger { display: none; font-size: 22px; cursor: pointer; background: none; border: none; }
+.mobile-menu { display: none; flex-direction: column; background: #fff; border-bottom: 1px solid #ddd; padding: 12px 24px; }
+.mobile-menu a { font-size: 14px; color: #222; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: block; }
+.mobile-menu a.active { font-weight: bold; }
+.mobile-menu.open { display: flex; }
+
+/* パンくず */
+.breadcrumb { background: #f5f5f5; border-bottom: 1px solid #e0e0e0; padding: 10px 40px; }
+.breadcrumb-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; font-size: 11px; color: #888; align-items: center; }
+.breadcrumb-inner a { color: #666; text-decoration: none; }
+.breadcrumb-inner span { color: #888; }
+
+/* TABLET 600〜1023px */
+@media (max-width: 1023px) {
+  .header-nav { display: none; }
+  .hamburger { display: block; }
+  .grid3 { grid-template-columns: 1fr 1fr; }
+}
+
+/* MOBILE 〜599px */
+@media (max-width: 599px) {
+  .section-wrap { padding: 0 16px; }
+  .section { padding: 32px 0; }
+  .section-title { font-size: 28px; margin-bottom: 24px; }
+  .grid2 { grid-template-columns: 1fr; }
+  .grid3 { grid-template-columns: 1fr; }
+  .header { padding: 0 16px; }
+  .breadcrumb { padding: 10px 16px; }
+  .anchor-nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .table-wrap { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="top.html" class="header-logo">
+      <div class="placeholder" style="width:32px;height:32px;border-radius:2px;flex-shrink:0;">LOGO</div>
+      しなの鉄道
+    </a>
+    <nav class="header-nav">
+      <a href="top.html">トップ</a>
+      <a href="ticket.html" class="active">きっぷ・乗車券</a>
+      <a href="timetable.html">時刻表・運賃</a>
+      <a href="suica_wireframe_v6.html">Suicaサービス</a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="top.html">トップ</a>
+    <a href="ticket.html" class="active">きっぷ・乗車券</a>
+    <a href="timetable.html">時刻表・運賃</a>
+    <a href="suica_wireframe_v6.html">Suicaサービス</a>
+  </div>
+
+  <!-- パンくず -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="top.html">トップ</a>
+      <span>›</span>
+      <span>きっぷ・乗車券</span>
+    </div>
+  </div>
+
+  <!-- ページタイトル -->
+  <div style="background:#333;color:#fff;padding:40px 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div style="font-size:11px;color:#aaa;margin-bottom:8px;letter-spacing:0.1em;">TICKETS &amp; PASSES</div>
+      <div style="font-size:28px;font-weight:bold;">きっぷ・乗車券</div>
+    </div>
+  </div>
+
+  <!-- アンカーナビ -->
+  <div style="background:#f9f9f9;border-bottom:1px solid #e0e0e0;padding:16px 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="anchor-nav">
+        <a href="#regular">普通乗車券</a>
+        <a href="#pass">定期券</a>
+        <a href="#free">フリーきっぷ</a>
+        <a href="#limited">特別企画乗車券</a>
+        <a href="#group">団体・貸切</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 普通乗車券 -->
+  <div class="section" id="regular">
+    <div class="section-wrap">
+      <div class="section-label">REGULAR TICKET</div>
+      <div class="section-title">普通乗車券</div>
+      <div class="section-sub">乗車区間に応じた乗車券をお買い求めください</div>
+      <div class="grid2" style="margin-bottom:24px;">
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;font-size:14px;">片道乗車券</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:12px;">ご乗車区間の片道運賃でご乗車いただける乗車券です。当日限り有効です。</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div class="tag">自動券売機で購入可</div>
+            <div class="tag">窓口で購入可</div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;font-size:14px;">往復乗車券</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:12px;">行きと帰りをセットで購入できる乗車券です。片道の2倍の運賃になります。</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div class="tag">自動券売機で購入可</div>
+            <div class="tag">窓口で購入可</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:20px;">
+        <div style="font-weight:bold;margin-bottom:12px;">運賃表（ダミー）</div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>区間</th><th>大人（円）</th><th>こども（円）</th></tr>
+            <tr><td>軽井沢〜小諸</td><td>580</td><td>290</td></tr>
+            <tr class="hl"><td>軽井沢〜上田</td><td>1,050</td><td>530</td></tr>
+            <tr><td>軽井沢〜長野</td><td>1,340</td><td>670</td></tr>
+            <tr class="hl"><td>小諸〜上田</td><td>480</td><td>240</td></tr>
+            <tr><td>小諸〜長野</td><td>900</td><td>450</td></tr>
+          </table>
+        </div>
+        <p class="note">※ 上記はダミーデータです。実際の運賃は時刻表・運賃ページをご確認ください。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 定期券 -->
+  <div class="section" id="pass">
+    <div class="section-wrap">
+      <div class="section-label">COMMUTER PASS</div>
+      <div class="section-title">定期券</div>
+      <div class="section-sub">通勤・通学に便利な定期券のご案内</div>
+      <div class="grid3" style="margin-bottom:24px;">
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;">通勤定期券</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:10px;">通勤に便利な定期券です。1ヶ月・3ヶ月・6ヶ月の3種類からお選びいただけます。</div>
+          <div class="tag">1ヶ月</div><div class="tag">3ヶ月</div><div class="tag">6ヶ月</div>
+        </div>
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;">通学定期券</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:10px;">学生の方向けの割引定期券です。学校が発行する通学証明書が必要です。</div>
+          <div class="tag">1ヶ月</div><div class="tag">3ヶ月</div><div class="tag">6ヶ月</div>
+        </div>
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;">Suica定期券</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:10px;">SuicaにIC定期券として搭載できます。チャージして交通系ICとしても利用可能。</div>
+          <div class="tag">モバイルSuica対応</div>
+        </div>
+      </div>
+      <div style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:20px;">
+        <div style="font-weight:bold;margin-bottom:12px;">購入・更新方法</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="background:#444;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">1</div>
+            <div><div style="font-weight:bold;font-size:12px;margin-bottom:2px;">駅窓口・みどりの窓口</div><div style="font-size:11px;color:#666;">各駅の窓口で定期券の新規購入・更新ができます。</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="background:#444;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">2</div>
+            <div><div style="font-weight:bold;font-size:12px;margin-bottom:2px;">定期券発売機</div><div style="font-size:11px;color:#666;">一部駅に設置されている定期券専用の発売機をご利用ください。</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="background:#444;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">3</div>
+            <div><div style="font-weight:bold;font-size:12px;margin-bottom:2px;">モバイルSuicaアプリ</div><div style="font-size:11px;color:#666;">スマートフォンのモバイルSuicaアプリでIC定期券の購入ができます。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フリーきっぷ -->
+  <div class="section" id="free">
+    <div class="section-wrap">
+      <div class="section-label">FREE PASS</div>
+      <div class="section-title">フリーきっぷ</div>
+      <div class="section-sub">お得な乗り放題きっぷをご活用ください</div>
+      <div class="grid2">
+        <div class="card" style="display:flex;gap:16px;">
+          <div class="placeholder" style="width:80px;height:80px;flex-shrink:0;border-radius:3px;">画像</div>
+          <div>
+            <div style="font-weight:bold;margin-bottom:4px;">ダミー：信州ワンデーパス</div>
+            <div style="font-size:12px;color:#555;line-height:1.7;margin-bottom:8px;">しなの鉄道全線が1日乗り放題のお得なきっぷです。観光や日帰り旅行に最適です。</div>
+            <div><div class="tag">大人 2,000円</div><div class="tag">こども 1,000円</div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px;">
+          <div class="placeholder" style="width:80px;height:80px;flex-shrink:0;border-radius:3px;">画像</div>
+          <div>
+            <div style="font-weight:bold;margin-bottom:4px;">ダミー：北信濃エリアパス</div>
+            <div style="font-size:12px;color:#555;line-height:1.7;margin-bottom:8px;">北しなの線のエリアが乗り放題のきっぷです。飯山周辺の観光にご利用ください。</div>
+            <div><div class="tag">大人 1,200円</div><div class="tag">こども 600円</div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px;">
+          <div class="placeholder" style="width:80px;height:80px;flex-shrink:0;border-radius:3px;">画像</div>
+          <div>
+            <div style="font-weight:bold;margin-bottom:4px;">ダミー：週末割引きっぷ</div>
+            <div style="font-size:12px;color:#555;line-height:1.7;margin-bottom:8px;">土日祝日限定でご利用いただける割引乗車券です。指定区間が20%割引になります。</div>
+            <div><div class="tag">土日祝限定</div><div class="tag">20%割引</div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px;">
+          <div class="placeholder" style="width:80px;height:80px;flex-shrink:0;border-radius:3px;">画像</div>
+          <div>
+            <div style="font-weight:bold;margin-bottom:4px;">ダミー：学生応援きっぷ</div>
+            <div style="font-size:12px;color:#555;line-height:1.7;margin-bottom:8px;">学生証提示で購入できる全線乗り放題きっぷ。夏休み・春休み期間に発売します。</div>
+            <div><div class="tag">学生専用</div><div class="tag">期間限定</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 特別企画乗車券 -->
+  <div class="section" id="limited">
+    <div class="section-wrap">
+      <div class="section-label">SPECIAL TICKET</div>
+      <div class="section-title">特別企画乗車券</div>
+      <div class="section-sub">期間限定のお得なきっぷのご案内</div>
+      <div style="background:#f9f9f9;border:1px solid #ddd;border-radius:4px;padding:20px;margin-bottom:20px;">
+        <div style="font-size:11px;color:#888;margin-bottom:4px;">現在発売中のきっぷ</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:16px;padding-bottom:12px;border-bottom:1px solid #eee;align-items:baseline;flex-wrap:wrap;">
+            <span style="font-size:11px;color:#888;white-space:nowrap;">〜2026.07.31</span>
+            <span class="tag" style="background:#444;color:#fff;">発売中</span>
+            <span style="font-weight:bold;">ダミー：軽井沢リゾートきっぷ</span>
+            <span style="font-size:11px;color:#666;">軽井沢〜小諸間の往復割引きっぷ。軽井沢のショッピングモール割引券付き。</span>
+          </div>
+          <div style="display:flex;gap:16px;padding-bottom:12px;border-bottom:1px solid #eee;align-items:baseline;flex-wrap:wrap;">
+            <span style="font-size:11px;color:#888;white-space:nowrap;">〜2026.06.30</span>
+            <span class="tag" style="background:#444;color:#fff;">発売中</span>
+            <span style="font-weight:bold;">ダミー：上田城跡めぐりきっぷ</span>
+            <span style="font-size:11px;color:#666;">上田城跡公園への往復割引きっぷ。入場割引券も同封。</span>
+          </div>
+          <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;">
+            <span style="font-size:11px;color:#888;white-space:nowrap;">2026.07.01〜</span>
+            <span class="tag">近日発売</span>
+            <span style="font-weight:bold;">ダミー：夏の信州一周きっぷ</span>
+            <span style="font-size:11px;color:#666;">夏の信州をぐるっと一周できるお得なきっぷ（詳細は後日発表）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 団体・貸切 -->
+  <div class="section" id="group">
+    <div class="section-wrap">
+      <div class="section-label">GROUP &amp; CHARTER</div>
+      <div class="section-title">団体・貸切</div>
+      <div class="section-sub">15名以上の団体乗車や列車の貸切についてのご案内</div>
+      <div class="grid2">
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;font-size:14px;">団体乗車券</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:12px;">15名以上でご利用いただける団体乗車券です。人数に応じた割引が適用されます。事前にお申し込みください。</div>
+          <div><div class="tag">15名以上</div><div class="tag">割引適用</div><div class="tag">事前申込必要</div></div>
+        </div>
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;font-size:14px;">列車貸切サービス</div>
+          <div style="font-size:12px;color:#555;line-height:1.8;margin-bottom:12px;">しなの鉄道の車両を貸切でご利用いただけるサービスです。企業イベントや撮影会などにご利用ください。</div>
+          <div><div class="tag">要相談</div><div class="tag">法人・団体向け</div></div>
+        </div>
+      </div>
+      <div style="margin-top:24px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;padding:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div style="font-weight:bold;margin-bottom:4px;">お問い合わせ・ご予約</div>
+          <div style="font-size:12px;color:#666;">団体乗車券・貸切のお申し込みは、お電話またはメールにてお受けしています。</div>
+        </div>
+        <a href="#" class="btn">お問い合わせはこちら</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#222;color:#aaa;padding:32px 40px;font-size:12px;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <div style="font-weight:bold;color:#fff;font-size:14px;">しなの鉄道株式会社</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="top.html" style="color:#aaa;text-decoration:none;">トップ</a>
+        <a href="ticket.html" style="color:#aaa;text-decoration:none;">きっぷ・乗車券</a>
+        <a href="timetable.html" style="color:#aaa;text-decoration:none;">時刻表・運賃</a>
+        <a href="suica_wireframe_v6.html" style="color:#aaa;text-decoration:none;">Suicaサービス</a>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:16px auto 0;border-top:1px solid #444;padding-top:16px;">
+      © 2026 しなの鉄道株式会社　※ このページはワイヤーフレームです
+    </div>
+  </div>
+
+</div>
+<script>
+document.querySelector('.hamburger').addEventListener('click', function() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>しなの鉄道 Suicaサービスについて｜ワイヤーフレーム v6</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: #e8e8e8; color: #333333; font-size: 16px; }
+.page { width: 100%; background: #fff; }
+.section-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.section { padding: 100px 0; border-bottom: 1px solid #dddddd; }
+.section-color { padding: 50px 0; border-bottom: 1px solid #dddddd; }
+.section-title { font-size: 30px; font-weight: bold; border-left: 4px solid #333333; padding-left: 10px; margin-bottom: 32px; line-height: 1.3; margin-top: 0; }
+.section-sub { color: #888888; font-size: 16px; margin-bottom: 24px; line-height: 2; }
+.placeholder { background: #e0e0e0; border: 1px dashed #aaaaaa; display: flex; align-items: center; justify-content: center; color: #888888; font-size: 12px; flex-direction: column; gap: 4px; }
+.card { background: #f0f0f0; border: 1px solid #dddddd; border-radius: 4px; padding: 16px; }
+.card-white { background: #fff; border: 1px solid #dddddd; border-radius: 4px; padding: 16px; }
+.note { font-size: 12px; color: #888888; margin-top: 6px; padding-left: 1em; text-indent: -1em; line-height: 2; }
+.tag { display: inline-block; background: #dddddd; border-radius: 2px; padding: 2px 8px; font-size: 12px; margin-right: 4px; margin-bottom: 4px; color: #333333; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.step-grid { display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; align-items: start; }
+.step-arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: #bbbbbb; padding-top: 60px; }
+.step-num { font-size: 28px; font-weight: bold; color: #bbbbbb; line-height: 1; margin-bottom: 6px; }
+.step-title { font-size: 22px; font-weight: bold; margin-bottom: 12px; }
+.step-desc { font-size: 16px; color: #888888; line-height: 1.7; }
+.buy-step { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+.buy-num { background: #333333; color: #fff; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; margin-top: 2px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+table th { background: #f0f0f0; padding: 12px; border: 1px solid #dddddd; text-align: center; font-weight: bold; }
+table td { padding: 12px; border: 1px solid #dddddd; text-align: center; color: #333333; }
+.hl td { background: #f0f0f0; }
+.anchor-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.anchor-nav a { color: #333333; text-decoration: none; font-size: 14px; padding: 6px 16px; border: 1px solid #dddddd; border-radius: 2px; background: #f0f0f0; white-space: nowrap; }
+
+/* BUTTONS */
+.btn-primary { display: inline-block; background: #333333; color: #ffffff; border: none; border-radius: 4px; padding: 12px 28px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; font-family: inherit; }
+.btn-secondary { display: inline-block; background: none; border: 1px solid #333333; color: #333333; border-radius: 4px; padding: 11px 28px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; font-family: inherit; }
+
+/* HEADER */
+.header { background: #fff; border-bottom: 2px solid #333333; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; position: sticky; top: 0; z-index: 200; }
+.header-logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 16px; color: #333333; text-decoration: none; }
+.header-nav { display: flex; gap: 28px; font-size: 14px; }
+.header-nav a { color: #333333; text-decoration: none; }
+.hamburger { display: none; font-size: 22px; cursor: pointer; background: none; border: none; color: #333333; line-height: 1; }
+.mobile-menu { display: none; flex-direction: column; background: #fff; border-bottom: 1px solid #dddddd; padding: 12px 24px; }
+.mobile-menu a { font-size: 16px; color: #333333; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: block; }
+.mobile-menu.open { display: flex; }
+
+/* 導入エリア */
+.area-tabs { display: flex; border: 1px solid #dddddd; border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+.area-tab { flex: 1; padding: 12px; text-align: center; background: #f0f0f0; font-size: 14px; font-weight: bold; cursor: pointer; border-right: 1px solid #dddddd; }
+.area-tab:last-child { border-right: none; }
+.area-tab.active { background: #333333; color: #fff; }
+.station-panel { display: none; }
+.station-panel.active { display: block; }
+.station-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.station-chip { display: flex; align-items: center; gap: 5px; font-size: 14px; padding: 6px 14px; border: 1px solid #dddddd; border-radius: 20px; background: #fff; }
+.station-chip .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.station-chip.major .dot { background: #333333; }
+.station-chip.normal .dot { background: #fff; border: 2px solid #888888; }
+.station-chip.connect { background: #f0f0f0; color: #888888; font-size: 12px; }
+.station-chip.connect .dot { background: #888888; }
+.area-legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px; color: #888888; margin-top: 16px; padding-top: 12px; border-top: 1px solid #dddddd; }
+.area-legend span { display: flex; align-items: center; gap: 5px; }
+
+/* アコーディオン */
+.accordion-item { border: 1px solid #dddddd; border-radius: 4px; margin-bottom: 8px; overflow: hidden; }
+.accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #f0f0f0; cursor: pointer; user-select: none; }
+.accordion-header:hover { background: #e8e8e8; }
+.accordion-title { font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.accordion-icon { font-size: 14px; color: #888888; transition: transform 0.2s; flex-shrink: 0; }
+.accordion-icon.open { transform: rotate(180deg); }
+.accordion-body { display: none; padding: 24px; border-top: 1px solid #dddddd; background: #fff; }
+.accordion-body.open { display: block; }
+.acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.acc-info-label { font-size: 12px; color: #888888; margin-top: 8px; }
+
+.h3-top { margin-top: 60px; }
+p { line-height: 2; }
+
+/* --- 新規クラス --- */
+
+/* ヘッダー内ロゴプレースホルダー */
+.header-logo-placeholder { width: 32px; height: 32px; border-radius: 2px; flex-shrink: 0; font-size: 10px; }
+
+/* カレントページのナビリンク */
+.nav-current { font-weight: bold; border-bottom: 2px solid #333333; padding-bottom: 2px; }
+
+/* HERO */
+.hero { background: #333333; color: #fff; padding: 56px 40px; }
+.hero-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 48px; align-items: center; }
+.hero-body { flex: 1; }
+.hero-badge { background: #fff; color: #333333; display: inline-block; padding: 3px 12px; font-size: 12px; font-weight: bold; margin-bottom: 16px; }
+.hero-title { font-size: 36px; font-weight: bold; line-height: 1.4; margin-bottom: 16px; }
+.hero-text { font-size: 16px; color: #aaaaaa; line-height: 1.8; }
+.hero-img { width: 280px; height: 200px; background: #555555; border: none; color: #888888; flex-shrink: 0; }
+.hero-img-icon { font-size: 32px; }
+
+/* パンくず */
+.breadcrumb { background: #f0f0f0; border-bottom: 1px solid #dddddd; padding: 10px 40px; font-size: 12px; color: #888888; }
+.breadcrumb-inner { max-width: 1200px; margin: 0 auto; }
+
+/* アンカーナビ */
+.anchor-nav-wrap { background: #f0f0f0; border-bottom: 1px solid #dddddd; padding: 16px 40px; }
+.anchor-nav-inner { max-width: 1200px; margin: 0 auto; }
+
+/* セクション背景 */
+.section-white { background: #fff; }
+.section-gray { background: #f0f0f0; }
+
+/* エリア凡例の丸アイコン */
+.legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.legend-dot-dark { background: #333333; }
+.legend-dot-light { background: #fff; border: 2px solid #888888; }
+.legend-dot-gray { background: #888888; }
+
+/* 使い方ステップカード */
+.step-card { display: flex; flex-direction: column; gap: 10px; }
+.step-card-placeholder { aspect-ratio: 3/2; width: 100%; border-radius: 3px; }
+.step-card-icon { font-size: 32px; }
+
+/* 種類・購入h3見出し */
+.types-h3 { font-size: 26px; font-weight: bold; margin-bottom: 20px; padding-bottom: 6px; border-bottom: 1px solid #dddddd; line-height: 1.3; }
+.types-group { margin-bottom: 0; }
+
+/* アコーディオン内テキスト */
+.acc-text { font-size: 16px; color: #333333; line-height: 1.8; margin-bottom: 12px; }
+.acc-label { font-size: 14px; font-weight: bold; margin-bottom: 12px; }
+.buy-step-text { font-size: 16px; color: #333333; }
+.reissue-ok { color: #333333; }
+.reissue-ng { color: #888888; }
+
+/* 選び方フローチャートプレースホルダー */
+.flowchart-placeholder { height: 320px; border-radius: 4px; }
+.flowchart-icon { font-size: 32px; }
+.flowchart-label { font-size: 14px; }
+.flowchart-note { font-size: 12px; color: #aaaaaa; }
+
+/* IC運賃セクション */
+.fare-note-top { margin-top: 12px; }
+.fare-link-wrap { margin-top: 24px; }
+.btn-icon { font-size: 14px; vertical-align: middle; }
+
+/* きっぷセクション */
+.ticket-group { margin-top: 8px; margin-bottom: 32px; }
+.ticket-label { font-weight: bold; font-size: 14px; margin-bottom: 12px; }
+.ticket-text { font-size: 16px; color: #333333; line-height: 2.2; }
+.ticket-desc { font-size: 16px; color: #333333; line-height: 1.8; }
+.ticket-card-mb { margin-bottom: 20px; }
+.ticket-note-top { margin-top: 12px; }
+
+/* 注意事項 */
+.notes-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.note-card { display: flex; gap: 12px; align-items: flex-start; }
+.note-icon { color: #888888; flex-shrink: 0; margin-top: 2px; }
+.note-text { font-size: 16px; color: #333333; line-height: 1.7; }
+
+/* フッター */
+.footer-main { background: #333333; color: #ffffff; }
+.footer-main-inner { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 48px; }
+.footer-logo-wrap { flex-shrink: 0; }
+.footer-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.footer-logo-placeholder { width: 32px; height: 32px; border-radius: 2px; background: #555555; border: none; color: #888888; font-size: 10px; }
+.footer-company-name { font-weight: bold; font-size: 16px; }
+.footer-address { font-size: 12px; color: #aaaaaa; line-height: 2.2; }
+.footer-cta { margin-top: 24px; }
+.footer-nav { display: flex; gap: 48px; flex-wrap: wrap; }
+.footer-nav-category { font-size: 14px; font-weight: bold; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #555555; }
+.footer-nav-links { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+.footer-nav-link { color: #aaaaaa; text-decoration: none; }
+.footer-remarks { margin-top: 40px; padding-top: 24px; border-top: 1px solid #555555; font-size: 12px; color: #888888; line-height: 1.8; }
+.footer-copyright { background: #f0f0f0; text-align: center; padding: 16px 40px; font-size: 12px; color: #888888; }
+
+/* TABLET 600〜1023px */
+@media (max-width: 1023px) {
+  .h3-top { margin-top: 40px; }
+  .header-nav { display: none; }
+  .hamburger { display: block; }
+  .section { padding: 60px 0; }
+  .section-color { padding: 30px 0; }
+  .step-grid { grid-template-columns: 1fr 24px 1fr; }
+  .step-grid .step-card-3 { grid-column: 1 / -1; }
+  .step-grid .step-arrow-2 { display: none; }
+  .acc-grid { grid-template-columns: 1fr; }
+}
+
+/* MOBILE 〜599px */
+@media (max-width: 599px) {
+  .section-wrap { padding: 0 16px; }
+  .section { padding: 40px 0; }
+  .section-color { padding: 20px 0; }
+  .section-title { font-size: 28px; margin-bottom: 24px; }
+  .section-sub { margin-bottom: 16px; }
+  h3 { font-size: 24px !important; }
+  .h3-top { margin-top: 40px; }
+  .step-title { font-size: 18px; margin-bottom: 8px; }
+  .hero-inner { flex-direction: column; }
+  .hero-img { width: 100%; height: 180px; }
+  .hero-title { font-size: 28px; }
+  .anchor-nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .grid2 { grid-template-columns: 1fr; }
+  .step-grid { grid-template-columns: 1fr; gap: 16px; }
+  .step-arrow { display: none; }
+  .step-grid .step-card-3 { grid-column: auto; }
+  .table-wrap { overflow-x: auto; }
+  .header { padding: 0 16px; }
+  .footer-inner { flex-direction: column; }
+  .footer-nav { flex-direction: column; gap: 24px; }
+  .hero { padding: 56px 16px; }
+  .breadcrumb { padding: 10px 16px; }
+  .anchor-nav-wrap { padding: 16px 16px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="top.html" class="header-logo">
+      <div class="placeholder header-logo-placeholder">LOGO</div>
+      しなの鉄道
+    </a>
+    <nav class="header-nav">
+      <a href="top.html">トップ</a>
+      <a href="ticket.html">きっぷ・乗車券</a>
+      <a href="timetable.html">時刻表・運賃</a>
+      <a href="suica_wireframe_v6.html" class="nav-current">Suicaサービス</a>
+    </nav>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+      <span class="material-icons">menu</span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="top.html">トップ</a>
+    <a href="ticket.html">きっぷ・乗車券</a>
+    <a href="timetable.html">時刻表・運賃</a>
+    <a href="suica_wireframe_v6.html" class="nav-current">Suicaサービス</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-body">
+        <div class="hero-badge">2026年3月14日（土）始発 サービス開始</div>
+        <div class="hero-title">しなの鉄道全線で<br>「Suica」がご利用いただけます</div>
+        <div class="hero-text">しなの鉄道線・北しなの線の全駅で「Suica」および<br>相互利用交通系ICカード・KURURUがご利用いただけます。</div>
+      </div>
+      <div class="hero-img placeholder">
+        <span class="material-icons hero-img-icon">touch_app</span>
+        <div>（画像）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">ホーム › ご利用案内 › Suicaサービスについて</div>
+  </div>
+
+  <!-- ANCHOR NAV -->
+  <div class="anchor-nav-wrap">
+    <div class="anchor-nav-inner">
+      <div class="anchor-nav">
+        <a href="#area">導入エリア</a>
+        <a href="#howto">使い方</a>
+        <a href="#types">種類・購入方法</a>
+        <a href="#select">選び方</a>
+        <a href="#fare">IC運賃</a>
+        <a href="#ticket">きっぷ・デジタルチケット</a>
+        <a href="#notes">注意事項</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: 導入エリア (白背景) -->
+  <div id="area" class="section section-white">
+    <div class="section-wrap">
+      <div class="section-title">導入エリア</div>
+      <div class="section-sub">しなの鉄道線・北しなの線の全駅でご利用いただけます</div>
+      <div class="area-tabs">
+        <div class="area-tab active" onclick="switchArea(this,'shinano')">しなの鉄道線</div>
+        <div class="area-tab" onclick="switchArea(this,'kita')">北しなの線</div>
+      </div>
+      <div class="station-panel active" id="panel-shinano">
+        <div class="station-list">
+          <div class="station-chip major"><div class="dot"></div>軽井沢</div>
+          <div class="station-chip normal"><div class="dot"></div>中軽井沢</div>
+          <div class="station-chip normal"><div class="dot"></div>信濃追分</div>
+          <div class="station-chip normal"><div class="dot"></div>御代田</div>
+          <div class="station-chip normal"><div class="dot"></div>平原</div>
+          <div class="station-chip normal"><div class="dot"></div>小諸</div>
+          <div class="station-chip normal"><div class="dot"></div>滋野</div>
+          <div class="station-chip normal"><div class="dot"></div>田中</div>
+          <div class="station-chip normal"><div class="dot"></div>大屋</div>
+          <div class="station-chip normal"><div class="dot"></div>信濃国分寺</div>
+          <div class="station-chip major"><div class="dot"></div>上田</div>
+          <div class="station-chip normal"><div class="dot"></div>西上田</div>
+          <div class="station-chip normal"><div class="dot"></div>テクノさかき</div>
+          <div class="station-chip normal"><div class="dot"></div>坂城</div>
+          <div class="station-chip normal"><div class="dot"></div>戸倉</div>
+          <div class="station-chip normal"><div class="dot"></div>千曲</div>
+          <div class="station-chip normal"><div class="dot"></div>屋代</div>
+          <div class="station-chip normal"><div class="dot"></div>屋代高校前</div>
+          <div class="station-chip connect"><div class="dot"></div>篠ノ井（JR接続）</div>
+        </div>
+      </div>
+      <div class="station-panel" id="panel-kita">
+        <div class="station-list">
+          <div class="station-chip connect"><div class="dot"></div>長野（JR接続）</div>
+          <div class="station-chip normal"><div class="dot"></div>北長野</div>
+          <div class="station-chip normal"><div class="dot"></div>三才</div>
+          <div class="station-chip normal"><div class="dot"></div>豊野</div>
+          <div class="station-chip normal"><div class="dot"></div>牟礼</div>
+          <div class="station-chip normal"><div class="dot"></div>古間</div>
+          <div class="station-chip normal"><div class="dot"></div>黒姫</div>
+          <div class="station-chip connect"><div class="dot"></div>妙高高原（えちごトキめき鉄道共同使用）</div>
+        </div>
+      </div>
+      <div class="area-legend">
+        <span><span class="legend-dot legend-dot-dark"></span>自動改札機設置駅</span>
+        <span><span class="legend-dot legend-dot-light"></span>簡易改札機設置駅</span>
+        <span><span class="legend-dot legend-dot-gray"></span>接続駅（JR等）</span>
+        <span>※ 妙高高原はえちごトキめき鉄道との共同使用駅</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 使い方 (グレー背景) -->
+  <div id="howto" class="section-color section-gray">
+    <div class="section-wrap">
+      <div class="section-title">Suicaの使い方</div>
+      <div class="section-sub">乗車・降車ともに改札機にタッチするだけで自動精算されます</div>
+      <div class="step-grid">
+        <div class="card-white step-card">
+          <div class="placeholder step-card-placeholder">
+            <span class="material-icons step-card-icon">credit_card</span>
+            <div>（画像）</div>
+          </div>
+          <div class="step-num">01</div>
+          <div class="step-title">チャージする</div>
+          <div class="step-desc">駅の自動券売機・JR東日本対応券売機・コンビニ等で現金チャージ可能</div>
+        </div>
+        <div class="step-arrow">›</div>
+        <div class="card-white step-card">
+          <div class="placeholder step-card-placeholder">
+            <span class="material-icons step-card-icon">touch_app</span>
+            <div>（画像）</div>
+          </div>
+          <div class="step-num">02</div>
+          <div class="step-title">乗車駅でタッチ</div>
+          <div class="step-desc">ICマークがついた改札機の読み取り部にタッチして入場</div>
+        </div>
+        <div class="step-arrow step-arrow-2">›</div>
+        <div class="card-white step-card step-card-3">
+          <div class="placeholder step-card-placeholder">
+            <span class="material-icons step-card-icon">touch_app</span>
+            <div>（画像）</div>
+          </div>
+          <div class="step-num">03</div>
+          <div class="step-title">降車駅でタッチ</div>
+          <div class="step-desc">降車駅でタッチ。利用区間のIC運賃が自動精算されます</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 種類・購入方法 (白背景) -->
+  <div id="types" class="section section-white">
+    <div class="section-wrap">
+      <div class="section-title">Suicaの種類・購入方法</div>
+      <div class="section-sub">用途に合わせてお選びください。クリックで詳細と購入方法を確認できます。</div>
+
+      <h3 class="types-h3 h3-top">カード型Suica</h3>
+      <div class="types-group">
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <div class="accordion-title">Suica定期券 <span class="tag">大人用</span><span class="tag">こども用</span></div>
+            <span class="accordion-icon open">▼</span>
+          </div>
+          <div class="accordion-body open">
+            <div class="acc-grid">
+              <div>
+                <div class="acc-text">定期区間の乗降＋区間外乗り越しも自動精算。通勤・通学（大学/専門・高校・中学・小学）定期あり。</div>
+                <div class="acc-info-label">紛失時の再発行：<strong class="reissue-ok">可能</strong></div>
+              </div>
+              <div>
+                <div class="acc-label">購入方法</div>
+                <div class="buy-step"><div class="buy-num">1</div><div class="buy-step-text">軽井沢・小諸・上田・屋代・長野（きっぷうりば）・豊野の駅窓口へ</div></div>
+                <div class="buy-step"><div class="buy-num">2</div><div class="buy-step-text">「Suica定期券の購入」とお伝えください</div></div>
+                <div class="buy-step"><div class="buy-num">3</div><div class="buy-step-text">区間・種別を選択して購入</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <div class="accordion-title">My Suica（記名式）<span class="tag">大人用</span><span class="tag">こども用</span></div>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="acc-grid">
+              <div>
+                <div class="acc-text">チャージ残高で自動精算。氏名・生年月日を登録するカード。</div>
+                <div class="acc-info-label">紛失時の再発行：<strong class="reissue-ok">可能</strong></div>
+              </div>
+              <div>
+                <div class="acc-label">購入方法</div>
+                <div class="buy-step"><div class="buy-num">1</div><div class="buy-step-text">軽井沢・小諸・上田・屋代・長野（きっぷうりば）・豊野の駅窓口へ</div></div>
+                <div class="buy-step"><div class="buy-num">2</div><div class="buy-step-text">「My Suicaの購入」とお伝えください</div></div>
+                <div class="buy-step"><div class="buy-num">3</div><div class="buy-step-text">氏名・生年月日を記入しデポジット（500円）を支払い発行</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <div class="accordion-title">Suicaカード（無記名式）<span class="tag">大人用のみ</span></div>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="acc-grid">
+              <div>
+                <div class="acc-text">記名不要でだれでも利用可能なカード。</div>
+                <div class="acc-info-label">紛失時の再発行：<strong class="reissue-ng">不可</strong></div>
+              </div>
+              <div>
+                <div class="acc-label">購入方法</div>
+                <div class="buy-step"><div class="buy-num">1</div><div class="buy-step-text">軽井沢・小諸・上田・屋代・長野（きっぷうりば）・豊野の駅窓口へ</div></div>
+                <div class="buy-step"><div class="buy-num">2</div><div class="buy-step-text">「Suicaカードの購入」とお伝えください</div></div>
+                <div class="buy-step"><div class="buy-num">3</div><div class="buy-step-text">デポジット（500円）＋チャージ金額を支払い発行</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="types-h3 h3-top">モバイルSuica</h3>
+      <div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <div class="accordion-title">モバイルSuica（チャージ利用）</div>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="acc-grid">
+              <div>
+                <div class="acc-text">スマートフォンをかざすだけで乗降可能。カード不要。</div>
+                <div class="acc-info-label">紛失時：アプリで再設定可能</div>
+              </div>
+              <div>
+                <div class="acc-label">利用開始方法</div>
+                <div class="buy-step"><div class="buy-num">1</div><div class="buy-step-text">「モバイルSuica」アプリをインストール</div></div>
+                <div class="buy-step"><div class="buy-num">2</div><div class="buy-step-text">会員登録（メールアドレス・クレジットカード等）</div></div>
+                <div class="buy-step"><div class="buy-num">3</div><div class="buy-step-text">チャージしてご利用開始</div></div>
+                <div class="note">※ JR東日本の公式アプリから手続きが必要です</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <div class="accordion-title">モバイルSuica定期券</div>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="acc-grid">
+              <div>
+                <div class="acc-text">駅に行かずにスマートフォンで定期券を購入可能。通勤・通学（大学/専門・高校・中学）定期に対応。</div>
+                <div class="note">※ しなの鉄道発〜JR東日本着の連絡定期券はモバイルSuicaへの取り込み不可</div>
+              </div>
+              <div>
+                <div class="acc-label">購入方法</div>
+                <div class="buy-step"><div class="buy-num">1</div><div class="buy-step-text">モバイルSuicaアプリにログイン</div></div>
+                <div class="buy-step"><div class="buy-num">2</div><div class="buy-step-text">「定期券」メニューから区間・種別を選択</div></div>
+                <div class="buy-step"><div class="buy-num">3</div><div class="buy-step-text">クレジットカードで決済して即時発行</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: 選び方 (グレー背景) -->
+  <div id="select" class="section-color section-gray">
+    <div class="section-wrap">
+      <div class="section-title">Suicaの選び方</div>
+      <div class="section-sub">質問に答えて、自分に合ったSuicaを見つけましょう</div>
+      <div class="placeholder flowchart-placeholder">
+        <span class="material-icons flowchart-icon">account_tree</span>
+        <div class="flowchart-label">フローチャート画像（選び方ガイド）</div>
+        <div class="flowchart-note">※ 画像として入稿予定</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: IC運賃 (白背景) -->
+  <div id="fare" class="section section-white">
+    <div class="section-wrap">
+      <div class="section-title">IC運賃について</div>
+      <div class="section-sub">IC運賃（1円単位）はきっぷの運賃より低廉になります</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>営業キロ</th><th>現行きっぷ運賃</th><th>新きっぷ運賃（2026年3月14日〜）</th><th>IC運賃（新設）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1〜3km</td><td>190円</td><td>190円</td><td>189円</td></tr>
+            <tr class="hl"><td>4〜6km</td><td>230円</td><td>240円</td><td>231円</td></tr>
+            <tr><td>7〜9km</td><td>240円</td><td>250円</td><td>242円</td></tr>
+            <tr class="hl"><td>10〜11km</td><td>260円</td><td>260円</td><td>251円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note fare-note-top">※ 定期券（通勤・通学）は現行と同額。</div>
+      <div class="note">※ きっぷ運賃は端数処理を四捨五入から切り上げに変更するため一部値上がりになります。</div>
+      <div class="fare-link-wrap">
+        <a href="#" class="btn-secondary">運賃一覧ページへ <span class="material-icons btn-icon">arrow_forward</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: きっぷ・デジタルチケット (グレー背景) -->
+  <div id="ticket" class="section-color section-gray">
+    <div class="section-wrap">
+      <div class="section-title">きっぷ・デジタルチケットについて</div>
+      <div class="ticket-group">
+        <div class="ticket-label">2026年3月13日（金）をもって発売終了となるきっぷ</div>
+        <div class="card-white">
+          <div class="ticket-text">
+            ・ 往復乗車券<br>
+            ・ 普通回数乗車券（障害者・通学用割引を除く）<br>
+            ・ 千曲川きっぷ（6枚つづり）<br>
+            ・ 軽井沢・長野フリーきっぷ（利用期限：2026年3月13日まで）
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="ticket-label">デジタルチケットとは</div>
+        <div class="card-white ticket-card-mb">
+          <div class="ticket-desc">スマートフォンやパソコンからオンラインで購入できる電子チケットです。駅窓口に行かなくても「お得なきっぷ」をいつでもどこでもご購入いただけます。2026年3月14日（土）より、窓口販売から移行します。</div>
+        </div>
+        <a href="#" class="btn-secondary">デジタルチケット専用ページへ <span class="material-icons btn-icon">arrow_forward</span></a>
+        <div class="note ticket-note-top">※ 商品内容・価格等は決まり次第お知らせします。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: 注意事項 (白背景) -->
+  <div id="notes" class="section section-white">
+    <div class="section-wrap">
+      <div class="section-title">ご利用にあたっての注意事項</div>
+      <div class="notes-list">
+        <div class="card note-card">
+          <span class="material-icons note-icon">warning</span>
+          <div class="note-text">Suicaはご利用可能エリア内完結でのご利用となります。JR小海線・飯山線など首都圏Suicaエリア外にまたがるご利用はきっぷをご購入ください。</div>
+        </div>
+        <div class="card note-card">
+          <span class="material-icons note-icon">warning</span>
+          <div class="note-text">首都圏Suicaエリア以外のSuicaエリア（新潟Suicaエリアなど）にまたがる利用はできません。</div>
+        </div>
+        <div class="card note-card">
+          <span class="material-icons note-icon">warning</span>
+          <div class="note-text">小諸駅でしなの鉄道線とJR小海線を乗り換える場合は、乗換こ線橋の簡易Suica改札機にタッチしてご乗車ください。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-main">
+      <div class="footer-main-inner">
+        <div class="footer-inner">
+          <!-- 左: ロゴ＋会社名＋住所・電話番号 -->
+          <div class="footer-logo-wrap">
+            <div class="footer-logo-row">
+              <div class="placeholder footer-logo-placeholder">LOGO</div>
+              <div class="footer-company-name">しなの鉄道</div>
+            </div>
+            <div class="footer-address">
+              〒000-0000 長野県〇〇市〇〇〇〇<br>
+              TEL: 000-000-0000
+            </div>
+            <div class="footer-cta">
+              <a href="#" class="btn-primary">公式サイトへ</a>
+            </div>
+          </div>
+          <!-- 右: ページ動線 -->
+          <div class="footer-nav">
+            <div>
+              <div class="footer-nav-category">ご利用案内</div>
+              <div class="footer-nav-links">
+                <a href="suica_wireframe_v6.html" class="footer-nav-link">Suicaサービスについて</a>
+                <a href="ticket.html" class="footer-nav-link">きっぷ・乗車券</a>
+                <a href="timetable.html" class="footer-nav-link">時刻表・運賃</a>
+                <a href="#fare" class="footer-nav-link">IC運賃一覧</a>
+              </div>
+            </div>
+            <div>
+              <div class="footer-nav-category">会社情報</div>
+              <div class="footer-nav-links">
+                <a href="#" class="footer-nav-link">会社概要</a>
+                <a href="#" class="footer-nav-link">採用情報</a>
+                <a href="#" class="footer-nav-link">お問い合わせ</a>
+              </div>
+            </div>
+            <div>
+              <div class="footer-nav-category">関連情報</div>
+              <div class="footer-nav-links">
+                <a href="#" class="footer-nav-link">プレスリリース</a>
+                <a href="#" class="footer-nav-link">よくある質問</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 注記 -->
+        <div class="footer-remarks">
+          ※「Suica」「モバイルSuica」「どこトレ」は東日本旅客鉄道株式会社の登録商標です。<br>
+          ※「KURURU」は長野市公共交通活性化・再生協議会の登録商標です。
+        </div>
+      </div>
+    </div>
+    <!-- コピーライト -->
+    <div class="footer-copyright">
+      © 2026 しなの鉄道株式会社 All Rights Reserved.
+    </div>
+  </footer>
+
+</div>
+<script>
+function switchArea(tab, id) {
+  document.querySelectorAll('.area-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.station-panel').forEach(function(p){ p.classList.remove('active'); });
+  tab.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+function toggleAcc(header) {
+  var body = header.nextElementSibling;
+  var icon = header.querySelector('.accordion-icon');
+  body.classList.toggle('open');
+  icon.classList.toggle('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ワイヤーフレーム制作 ワークフロー</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  background: #f0f0f0;
+  color: #222;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── Layout ── */
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #222;
+  color: #ccc;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 32px 0 40px;
+}
+.sidebar-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #888;
+  padding: 0 24px 16px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 16px;
+}
+.sidebar-title strong {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 0;
+  margin-bottom: 4px;
+}
+.nav-section { margin-bottom: 8px; }
+.nav-section-label {
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 0.1em;
+  padding: 8px 24px 4px;
+  display: block;
+}
+.sidebar a {
+  display: block;
+  padding: 7px 24px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: background 0.1s;
+}
+.sidebar a:hover { background: #2e2e2e; color: #fff; border-left-color: #666; }
+.sidebar a.active { color: #fff; border-left-color: #fff; background: #2e2e2e; }
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 48px 56px 80px;
+  max-width: 880px;
+}
+
+/* ── Header ── */
+.page-header {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid #222;
+}
+.page-header .label {
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+}
+.page-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+.page-header .meta {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ── Section ── */
+.section { margin-bottom: 56px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.section-num {
+  width: 32px;
+  height: 32px;
+  background: #222;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.section h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.section p { margin-bottom: 12px; color: #444; }
+.section p:last-child { margin-bottom: 0; }
+
+/* ── Role cards ── */
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+.role-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.role-card-head {
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.role-card-head .badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: normal;
+}
+.role-ai .role-card-head { background: #222; color: #fff; }
+.role-ai .role-card-head .badge { background: #444; color: #ccc; }
+.role-code .role-card-head { background: #555; color: #fff; }
+.role-code .role-card-head .badge { background: #777; color: #ddd; }
+.role-card-body {
+  padding: 14px 16px;
+  background: #fafafa;
+}
+.role-card-body li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+  list-style: none;
+  padding-left: 1.2em;
+  position: relative;
+  color: #333;
+}
+.role-card-body li::before { content: '–'; position: absolute; left: 0; color: #aaa; }
+.role-card-body li:last-child { border-bottom: none; }
+
+.role-rule {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-left: 4px solid #222;
+  border-radius: 0 4px 4px 0;
+  padding: 14px 18px;
+  font-size: 13px;
+  margin-top: 16px;
+  color: #333;
+}
+.role-rule strong { color: #222; }
+
+/* ── Steps ── */
+.steps { margin: 20px 0; }
+.step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.step::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: -4px;
+  width: 2px;
+  background: #e0e0e0;
+}
+.step:last-child::before { display: none; }
+.step-num {
+  width: 32px;
+  height: 32px;
+  background: #444;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.step-body {
+  flex: 1;
+  padding: 6px 0 20px;
+}
+.step-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #222;
+}
+.step-desc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.7;
+}
+.step-sub {
+  margin-top: 8px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #555;
+}
+.step-sub li { list-style: none; padding: 3px 0; padding-left: 1.2em; position: relative; }
+.step-sub li::before { content: '·'; position: absolute; left: 0; color: #aaa; font-size: 16px; line-height: 1; top: 4px; }
+
+/* ── Code block ── */
+.code-block {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 4px;
+  padding: 14px 18px;
+  font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 12px 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-block .comment { color: #6a9955; }
+.code-block .key { color: #9cdcfe; }
+.code-block .val { color: #ce9178; }
+
+/* ── Note ── */
+.note {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-left: 3px solid #888;
+  border-radius: 0 4px 4px 0;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: #666;
+  margin: 12px 0;
+}
+.note strong { color: #444; }
+
+.warn {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-left: 3px solid #444;
+  border-radius: 0 4px 4px 0;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: #555;
+  margin: 12px 0;
+}
+.warn strong { color: #222; }
+
+/* ── Spec table ── */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 16px 0;
+}
+.spec-table th {
+  background: #222;
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 12px;
+}
+.spec-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e8e8e8;
+  vertical-align: top;
+}
+.spec-table tr:nth-child(even) td { background: #f9f9f9; }
+.spec-table td:first-child { font-weight: bold; color: #333; width: 180px; white-space: nowrap; }
+.spec-table td code {
+  background: #eee;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 11px;
+}
+
+/* ── Tag ── */
+.tag {
+  display: inline-block;
+  background: #e0e0e0;
+  border-radius: 3px;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: #555;
+  margin-right: 4px;
+}
+.tag-dark {
+  background: #444;
+  color: #fff;
+}
+
+/* ── Divider ── */
+hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
+
+/* ── Flow diagram ── */
+.flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.flow-item {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  position: relative;
+}
+.flow-item:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -10px;
+  top: 20px;
+  font-size: 16px;
+  color: #bbb;
+}
+.flow-box {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 8px;
+  margin: 0 20px 0 0;
+  background: #fff;
+  font-size: 12px;
+}
+.flow-box strong { display: block; margin-bottom: 4px; font-size: 13px; }
+.flow-label { font-size: 10px; color: #888; margin-top: 6px; }
+
+/* ── Footer ── */
+.page-footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd;
+  font-size: 12px;
+  color: #999;
+}
+
+@media (max-width: 860px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; padding: 20px 0; }
+  .sidebar a { display: inline-block; padding: 6px 16px; }
+  .main { padding: 32px 24px 60px; }
+  .role-grid { grid-template-columns: 1fr; }
+  .flow { flex-direction: column; }
+  .flow-item::after { display: none; }
+  .flow-box { margin: 0 0 4px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <nav class="sidebar">
+    <div class="sidebar-title">
+      <strong>ワークフロー</strong>
+      WIREFRAME PROJECTS
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-label">OVERVIEW</span>
+      <a href="#roles">役割分担</a>
+      <a href="#specs">基本仕様</a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-label">WORKFLOW</span>
+      <a href="#new-project">新規案件の開始</a>
+      <a href="#figma">Figma連携</a>
+      <a href="#images">画像のローカル保存</a>
+      <a href="#feedback">フィードバック対応</a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-label">REFERENCE</span>
+      <a href="#file-structure">フォルダ構成</a>
+      <a href="#claude-md">CLAUDE.md 仕様</a>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <header class="page-header">
+      <div class="label">WIREFRAME PROJECTS — WORKFLOW GUIDE</div>
+      <h1>ワイヤーフレーム制作<br>ワークフロー手順書</h1>
+      <div class="meta">作成日：2026年5月15日　　対象ツール：Claude.ai / Claude Code / Figma</div>
+    </header>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 1. 役割分担 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="roles">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>Claude.ai と Claude Code の役割分担</h2>
+      </div>
+      <p>制作作業は <strong>「考える」</strong> と <strong>「手を動かす」</strong> の2つに分かれる。それぞれ担当ツールを固定することで効率よく進める。</p>
+
+      <div class="role-grid">
+        <div class="role-card role-ai">
+          <div class="role-card-head">
+            Claude.ai
+            <span class="badge">考える・相談する</span>
+          </div>
+          <ul class="role-card-body">
+            <li>案件の初回ヒアリング</li>
+            <li>ページ構成・情報設計の検討</li>
+            <li>コンテンツ内容の整理と提案</li>
+            <li>ワイヤーフレームのレビュー・改善提案</li>
+            <li>クライアントフィードバックの整理・優先順位付け</li>
+            <li>制作方針の相談・判断</li>
+          </ul>
+        </div>
+        <div class="role-card role-code">
+          <div class="role-card-head">
+            Claude Code
+            <span class="badge">手を動かす</span>
+          </div>
+          <ul class="role-card-body">
+            <li>ワイヤーフレームHTML の全ページ生成</li>
+            <li>ページ間ナビゲーションリンクの設定</li>
+            <li>CLAUDE.md の作成・更新</li>
+            <li>Figma へのワイヤーフレーム書き出し</li>
+            <li>Figma からの差分読み取りと HTML 反映</li>
+            <li>フォルダ・ファイル管理全般</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="role-rule">
+        <strong>原則：</strong> 手を動かす作業はすべて Claude Code が担当。<br>
+        Claude.ai は成果物を確認・レビューし、次の指示を出す役割。両者を混同しない。
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 2. 基本仕様 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="specs">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>基本仕様（全案件共通）</h2>
+      </div>
+      <p>以下は <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:12px;">wireframe-projects/CLAUDE.md</code> に定義された全案件共通ルール。</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr><th>項目</th><th>仕様</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>制作物</td>
+            <td>ワイヤーフレーム（HTML ファイル）</td>
+          </tr>
+          <tr>
+            <td>カラー</td>
+            <td>グレースケールのみ使用（カラーコードは <code>#222</code>〜<code>#fff</code> の無彩色）</td>
+          </tr>
+          <tr>
+            <td>レスポンシブ</td>
+            <td>必須。PC / タブレット / モバイルの 3 段階で対応</td>
+          </tr>
+          <tr>
+            <td>コンテンツ幅</td>
+            <td><code>max-width: 1200px</code>　センタリング</td>
+          </tr>
+          <tr>
+            <td>左右パディング</td>
+            <td>PC: <code>padding: 0 40px</code>　／　モバイル: <code>padding: 0 16px</code></td>
+          </tr>
+          <tr>
+            <td>ブレークポイント</td>
+            <td>
+              PC：1024px 以上<br>
+              タブレット：600px〜1023px<br>
+              モバイル：599px 以下
+            </td>
+          </tr>
+          <tr>
+            <td>ナビゲーション</td>
+            <td>タブレット以下の表示方法は案件ごとの CLAUDE.md で定義（例：ハンバーガーメニュー）</td>
+          </tr>
+          <tr>
+            <td>ページ間リンク</td>
+            <td>HTML リンクで接続し、ブラウザ上でプロトタイプとして動作させる</td>
+          </tr>
+          <tr>
+            <td>ファイル管理</td>
+            <td>案件ごとにサブフォルダを作成。各案件フォルダに <code>CLAUDE.md</code> を配置</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 3. 新規案件の開始 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="new-project">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>新規案件の開始手順</h2>
+      </div>
+      <p>新しい案件が発生したときの標準的な進め方。</p>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Claude.ai でヒアリング・ページ構成の検討</div>
+            <div class="step-desc">
+              クライアントの要件を Claude.ai に伝え、必要なページ一覧、各ページの役割、ナビゲーション構成などを整理する。
+            </div>
+            <div class="step-sub">
+              <li>どんなページが必要か？（トップ・一覧・詳細 etc.）</li>
+              <li>タブレット以下のナビゲーション方式は？（ハンバーガー、タブ等）</li>
+              <li>Figma への書き出しが必要なページはどれか？</li>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code で案件フォルダを作成</div>
+            <div class="step-desc">
+              <code style="background:#eee;padding:1px 6px;border-radius:3px;">wireframe-projects/</code> 直下に案件名のフォルダを作成する。
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code で案件固有の CLAUDE.md を作成</div>
+            <div class="step-desc">
+              以下の内容を含む CLAUDE.md を案件フォルダ内に作成するよう Claude Code に指示する。
+            </div>
+            <div class="step-sub">
+              <li>案件名</li>
+              <li>ページ一覧（ファイル名：ページ名）</li>
+              <li>ナビゲーション方式（タブレット以下）</li>
+              <li>Figma 連携情報（チームキー・ファイルキー）※必要な場合</li>
+              <li>備考（特記事項・制約など）</li>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code で全ページの HTML を生成</div>
+            <div class="step-desc">
+              共通ルール（グレースケール・1200px・レスポンシブ）に沿ったワイヤーフレーム HTML をダミーコンテンツで全ページ生成する。
+            </div>
+            <div class="step-sub">
+              <li>全ページにヘッダーナビを設置し、相互リンクで接続</li>
+              <li>現在ページをアクティブ表示（下線・太字等）</li>
+              <li>フッターにも全ページリンクを設置</li>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Claude.ai でレビュー・修正指示</div>
+            <div class="step-desc">
+              生成された HTML をブラウザで確認し、不足・修正点があれば Claude.ai を通じてまとめ、Claude Code に修正を依頼する。
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 4. Figma 連携 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="figma">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>Figma 連携手順</h2>
+      </div>
+      <p>特定ページを Figma に書き出す場合、または Figma 上の変更を HTML に反映する場合の手順。</p>
+
+      <div class="note">
+        <strong>前提：</strong> 案件フォルダの CLAUDE.md に Figma ファイルキー・チームキーが記載されていること。Claude Code は自動的に CLAUDE.md を参照して使用する。
+      </div>
+
+      <div style="margin-top: 24px; margin-bottom: 8px; font-weight: bold; font-size: 13px;">▼ HTML → Figma への書き出し</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">対象の HTML ファイルを Claude Code に読み込ませる</div>
+            <div class="step-desc">「○○.html の内容を読み込んで、Figma の Page 1 に書き出してください」と指示する。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code が Figma MCP ツールで書き出しを実行</div>
+            <div class="step-desc">
+              <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">get_metadata</code> でページ構造を確認後、<code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">use_figma</code> でフレームを生成する。グレースケール・1440px 幅で作成される。
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Figma 上で確認・追加編集（手動）</div>
+            <div class="step-desc">書き出されたフレームを Figma アプリで開き、必要に応じて画像の追加・テキストの調整などを行う。</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; margin-bottom: 8px; font-weight: bold; font-size: 13px;">▼ Figma → HTML への反映</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code に Figma の読み取りを指示</div>
+            <div class="step-desc">「Figma の Page 1 にある○○フレームの内容を読み取って、○○.html に反映してください」と指示する。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code が差分を確認して HTML を更新</div>
+            <div class="step-desc">
+              <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">get_metadata</code> → <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">get_design_context</code> の順に取得し、Figma 上の変更点のみを HTML に反映する。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>注意：</strong> Figma MCP で取得できる画像アセット URL は <strong>7日間</strong> で期限切れになる。URL をそのまま HTML に使う場合は次の「画像のローカル保存手順」を必ず実施すること。
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 5. 画像のローカル保存 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="images">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>画像のローカル保存手順</h2>
+      </div>
+      <p>Figma から取得した一時 URL の画像をローカルに保存し、HTML から参照する手順。</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code に images フォルダの作成を指示</div>
+            <div class="step-desc">案件フォルダ直下に <code style="background:#eee;padding:1px 6px;border-radius:3px;">images/</code> フォルダを作成するよう指示する。</div>
+            <div class="code-block"><span class="comment">// 指示例</span>
+「しなの鉄道フォルダ内に images フォルダを作成してください。
+ 画像ファイルは手動で配置します。」</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Figma の一時 URL から画像を手動ダウンロード</div>
+            <div class="step-desc">
+              Claude Code が HTML に出力した <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">https://www.figma.com/api/mcp/asset/...</code> の URL をブラウザで開き、画像をダウンロードする。
+            </div>
+            <div class="step-sub">
+              <li>ダウンロードしたファイルを <code>images/</code> フォルダに移動・リネーム</li>
+              <li>ファイル名は用途がわかる名前にする（例：<code>hero.jpg</code>、<code>banner_suica.jpg</code>）</li>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code に src の書き換えを指示</div>
+            <div class="step-desc">一時 URL からローカルパスに変更するよう指示する。</div>
+            <div class="code-block"><span class="comment">// 指示例</span>
+「top.html のヒーロー画像を Figma の一時 URL から
+ ローカルの images/hero.jpg に変更してください。」</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>推奨ファイル命名規則：</strong> <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">hero.jpg</code>（ヒーロー画像）、<code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">pickup_01.jpg</code>（連番バナー）など、役割がわかる名前にする。
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 6. フィードバック対応 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="feedback">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>クライアントフィードバック対応</h2>
+      </div>
+      <p>クライアントからの修正依頼を受けてから反映するまでの流れ。</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Claude.ai でフィードバックを整理・分類</div>
+            <div class="step-desc">受け取ったフィードバックを Claude.ai に共有し、修正の優先順位・対応方法・影響範囲を整理する。</div>
+            <div class="step-sub">
+              <li>全ページ共通の変更か、特定ページのみか</li>
+              <li>レイアウト変更か、テキスト修正か、構造変更か</li>
+              <li>Figma への再書き出しが必要か</li>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code に修正を指示</div>
+            <div class="step-desc">Claude.ai でまとめた修正内容を Claude Code に渡し、HTML ファイルを更新する。複数ページにわたる共通変更（ナビ構造等）は一括で依頼する。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">ブラウザで動作確認</div>
+            <div class="step-desc">修正後のHTMLをブラウザで開き、PC / タブレット / モバイルの各サイズで表示を確認する。ページ間リンクが正常に機能しているかもチェック。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">必要に応じて Figma を更新</div>
+            <div class="step-desc">Figma 上でデザインレビューしている場合は、HTML の変更を Figma にも反映する。「○○.html の変更内容を Figma の既存フレームに反映してください」と指示する。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">クライアントへの提出</div>
+            <div class="step-desc">修正済みファイル一式（HTMLフォルダ）を圧縮して提出、またはブラウザ確認用 URL を共有する。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ════════════════════════════════ -->
+    <!-- Reference: フォルダ構成 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="file-structure">
+      <div class="section-header">
+        <div class="section-num" style="background:#666;">R</div>
+        <h2>フォルダ構成</h2>
+      </div>
+      <div class="code-block"><span class="key">wireframe-projects/</span>
+├── <span class="val">CLAUDE.md</span>          <span class="comment"># 全案件共通ルール</span>
+├── <span class="val">workflow.html</span>       <span class="comment"># 本ドキュメント</span>
+│
+├── <span class="key">案件名フォルダ/</span>
+│   ├── <span class="val">CLAUDE.md</span>      <span class="comment"># 案件固有の設定</span>
+│   ├── <span class="val">top.html</span>       <span class="comment"># トップページ</span>
+│   ├── <span class="val">page2.html</span>     <span class="comment"># 各ページ</span>
+│   └── <span class="key">images/</span>        <span class="comment"># 画像ファイル置き場</span>
+│       └── <span class="val">hero.jpg</span>   <span class="comment"># ローカル保存画像</span>
+│
+└── <span class="key">別案件フォルダ/</span>
+    └── ...</div>
+    </section>
+
+    <!-- ════════════════════════════════ -->
+    <!-- Reference: CLAUDE.md 仕様 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="claude-md">
+      <div class="section-header">
+        <div class="section-num" style="background:#666;">R</div>
+        <h2>案件 CLAUDE.md の記載仕様</h2>
+      </div>
+      <p>各案件フォルダの CLAUDE.md に含める項目。Claude Code がこのファイルを自動参照して作業を進める。</p>
+
+      <div class="code-block"><span class="comment"># 案件名</span>
+○○会社 ○○ページ
+
+<span class="comment">## ページ一覧</span>
+<span class="key">- top.html</span><span class="val">: トップページ</span>
+<span class="key">- about.html</span><span class="val">: 会社概要ページ</span>
+
+<span class="comment">## ナビゲーション</span>
+<span class="val">- タブレット以下でハンバーガーメニューに切り替え</span>
+
+<span class="comment">## Figma連携</span>
+<span class="key">- チームキー</span><span class="val">: team::XXXXXXXXXXXXX（チーム名）</span>
+<span class="key">- ファイルキー</span><span class="val">: XXXXXXXXXXXXX（ファイル名）</span>
+
+<span class="comment">## 備考</span>
+<span class="val">- 特記事項・制約・未確定事項など</span></div>
+
+      <table class="spec-table" style="margin-top:16px;">
+        <thead><tr><th>項目</th><th>説明</th></tr></thead>
+        <tbody>
+          <tr><td>案件名</td><td>クライアント名とページ・サービス名</td></tr>
+          <tr><td>ページ一覧</td><td>ファイル名：ページ名の形式で全ページを列挙</td></tr>
+          <tr><td>ナビゲーション</td><td>タブレット以下の表示方式（ハンバーガー等）</td></tr>
+          <tr><td>Figma連携</td><td>チームキーとファイルキー。Figma不要の案件は省略可</td></tr>
+          <tr><td>備考</td><td>アコーディオン使用、画像入稿予定等の特記事項</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="page-footer">
+      wireframe-projects / workflow.html　　最終更新：2026年5月15日
+    </footer>
+
+  </main>
+</div>
+
+<script>
+// サイドバーのアクティブリンク
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sidebar a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sidebar a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-40px 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
