@@ -330,39 +330,6 @@ body {
 /* ── Divider ── */
 hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
 
-/* ── Flow diagram ── */
-.flow {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  margin: 20px 0;
-  flex-wrap: wrap;
-}
-.flow-item {
-  flex: 1;
-  min-width: 120px;
-  text-align: center;
-  position: relative;
-}
-.flow-item:not(:last-child)::after {
-  content: '→';
-  position: absolute;
-  right: -10px;
-  top: 20px;
-  font-size: 16px;
-  color: #bbb;
-}
-.flow-box {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px 8px;
-  margin: 0 20px 0 0;
-  background: #fff;
-  font-size: 12px;
-}
-.flow-box strong { display: block; margin-bottom: 4px; font-size: 13px; }
-.flow-label { font-size: 10px; color: #888; margin-top: 6px; }
-
 /* ── Footer ── */
 .page-footer {
   margin-top: 64px;
@@ -378,9 +345,6 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
   .sidebar a { display: inline-block; padding: 6px 16px; }
   .main { padding: 32px 24px 60px; }
   .role-grid { grid-template-columns: 1fr; }
-  .flow { flex-direction: column; }
-  .flow-item::after { display: none; }
-  .flow-box { margin: 0 0 4px; }
 }
 </style>
 </head>
@@ -396,22 +360,22 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
 
     <div class="nav-section">
       <span class="nav-section-label">OVERVIEW</span>
-      <a href="#roles">役割分担</a>
-      <a href="#specs">基本仕様</a>
+      <a href="#roles">1. ツールと役割分担</a>
+      <a href="#folder">2. フォルダ構成</a>
     </div>
 
     <div class="nav-section">
       <span class="nav-section-label">WORKFLOW</span>
-      <a href="#new-project">新規案件の開始</a>
-      <a href="#figma">Figma連携</a>
-      <a href="#images">画像のローカル保存</a>
-      <a href="#feedback">フィードバック対応</a>
+      <a href="#new-project">3. 新規案件の立ち上げ</a>
+      <a href="#update">4. 修正・更新の手順</a>
+      <a href="#github-netlify">5. GitHub・Netlify設定</a>
+      <a href="#figma">6. Figma連携手順</a>
+      <a href="#feedback">7. フィードバック対応</a>
     </div>
 
     <div class="nav-section">
       <span class="nav-section-label">REFERENCE</span>
-      <a href="#file-structure">フォルダ構成</a>
-      <a href="#claude-md">CLAUDE.md 仕様</a>
+      <a href="#claude-md">案件CLAUDE.md仕様</a>
     </div>
   </nav>
 
@@ -421,16 +385,16 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
     <header class="page-header">
       <div class="label">WIREFRAME PROJECTS — WORKFLOW GUIDE</div>
       <h1>ワイヤーフレーム制作<br>ワークフロー手順書</h1>
-      <div class="meta">作成日：2026年5月15日　　対象ツール：Claude.ai / Claude Code / Figma</div>
+      <div class="meta">最終更新：2026年5月27日　　対象ツール：Claude.ai / Claude Code / GitHub / Netlify / Figma</div>
     </header>
 
     <!-- ════════════════════════════════ -->
-    <!-- 1. 役割分担 -->
+    <!-- 1. ツールと役割分担 -->
     <!-- ════════════════════════════════ -->
     <section class="section" id="roles">
       <div class="section-header">
         <div class="section-num">1</div>
-        <h2>Claude.ai と Claude Code の役割分担</h2>
+        <h2>ツールと役割分担</h2>
       </div>
       <p>制作作業は <strong>「考える」</strong> と <strong>「手を動かす」</strong> の2つに分かれる。それぞれ担当ツールを固定することで効率よく進める。</p>
 
@@ -455,12 +419,12 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
             <span class="badge">手を動かす</span>
           </div>
           <ul class="role-card-body">
-            <li>ワイヤーフレームHTML の全ページ生成</li>
+            <li>ワイヤーフレームHTMLの全ページ生成</li>
             <li>ページ間ナビゲーションリンクの設定</li>
-            <li>CLAUDE.md の作成・更新</li>
-            <li>Figma へのワイヤーフレーム書き出し</li>
-            <li>Figma からの差分読み取りと HTML 反映</li>
-            <li>フォルダ・ファイル管理全般</li>
+            <li>CLAUDE.mdの作成・更新</li>
+            <li>Figmaへのワイヤーフレーム書き出し</li>
+            <li>Figmaからの差分読み取りとHTML反映</li>
+            <li>git commit / push（GitHub連携）</li>
           </ul>
         </div>
       </div>
@@ -472,73 +436,44 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
     </section>
 
     <!-- ════════════════════════════════ -->
-    <!-- 2. 基本仕様 -->
+    <!-- 2. フォルダ構成 -->
     <!-- ════════════════════════════════ -->
-    <section class="section" id="specs">
+    <section class="section" id="folder">
       <div class="section-header">
         <div class="section-num">2</div>
-        <h2>基本仕様（全案件共通）</h2>
+        <h2>フォルダ構成</h2>
       </div>
-      <p>以下は <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:12px;">wireframe-projects/CLAUDE.md</code> に定義された全案件共通ルール。</p>
+      <p>すべての案件は <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:12px;">wireframe-projects/</code> 以下に案件フォルダとして管理する。</p>
 
-      <table class="spec-table">
-        <thead>
-          <tr><th>項目</th><th>仕様</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>制作物</td>
-            <td>ワイヤーフレーム（HTML ファイル）</td>
-          </tr>
-          <tr>
-            <td>カラー</td>
-            <td>グレースケールのみ使用（カラーコードは <code>#222</code>〜<code>#fff</code> の無彩色）</td>
-          </tr>
-          <tr>
-            <td>レスポンシブ</td>
-            <td>必須。PC / タブレット / モバイルの 3 段階で対応</td>
-          </tr>
-          <tr>
-            <td>コンテンツ幅</td>
-            <td><code>max-width: 1200px</code>　センタリング</td>
-          </tr>
-          <tr>
-            <td>左右パディング</td>
-            <td>PC: <code>padding: 0 40px</code>　／　モバイル: <code>padding: 0 16px</code></td>
-          </tr>
-          <tr>
-            <td>ブレークポイント</td>
-            <td>
-              PC：1024px 以上<br>
-              タブレット：600px〜1023px<br>
-              モバイル：599px 以下
-            </td>
-          </tr>
-          <tr>
-            <td>ナビゲーション</td>
-            <td>タブレット以下の表示方法は案件ごとの CLAUDE.md で定義（例：ハンバーガーメニュー）</td>
-          </tr>
-          <tr>
-            <td>ページ間リンク</td>
-            <td>HTML リンクで接続し、ブラウザ上でプロトタイプとして動作させる</td>
-          </tr>
-          <tr>
-            <td>ファイル管理</td>
-            <td>案件ごとにサブフォルダを作成。各案件フォルダに <code>CLAUDE.md</code> を配置</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="code-block"><span class="key">wireframe-projects/</span>
+├── <span class="val">CLAUDE.md</span>          <span class="comment"># 全案件共通ルール</span>
+├── <span class="val">workflow.html</span>       <span class="comment"># 本ドキュメント</span>
+│
+├── <span class="key">案件名フォルダ/</span>
+│   ├── <span class="val">CLAUDE.md</span>      <span class="comment"># 案件固有の設定</span>
+│   ├── <span class="val">top.html</span>       <span class="comment"># トップページ</span>
+│   ├── <span class="val">page2.html</span>     <span class="comment"># 各ページ</span>
+│   └── <span class="key">images/</span>        <span class="comment"># 画像ファイル置き場（必要な場合）</span>
+│       └── <span class="val">hero.jpg</span>
+│
+└── <span class="key">別案件フォルダ/</span>
+    └── ...</div>
+
+      <div class="note">
+        <strong>ファイル名のルール：</strong> 英数字・ハイフンのみ使用。日本語・スペース禁止。<br>
+        例：<code>marketing-top.html</code>、<code>about.html</code>、<code>service-detail.html</code>
+      </div>
     </section>
 
     <hr>
 
     <!-- ════════════════════════════════ -->
-    <!-- 3. 新規案件の開始 -->
+    <!-- 3. 新規案件の立ち上げ手順 -->
     <!-- ════════════════════════════════ -->
     <section class="section" id="new-project">
       <div class="section-header">
         <div class="section-num">3</div>
-        <h2>新規案件の開始手順</h2>
+        <h2>新規案件の立ち上げ手順</h2>
       </div>
       <p>新しい案件が発生したときの標準的な進め方。</p>
 
@@ -547,13 +482,13 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-body">
-            <div class="step-title">Claude.ai でヒアリング・ページ構成の検討</div>
+            <div class="step-title">Claude.ai でヒアリング・ページ構成を整理する</div>
             <div class="step-desc">
-              クライアントの要件を Claude.ai に伝え、必要なページ一覧、各ページの役割、ナビゲーション構成などを整理する。
+              クライアントの要件を Claude.ai に伝え、必要なページ一覧・ナビゲーション構成・Figma連携の要否などを整理する。
             </div>
             <div class="step-sub">
               <li>どんなページが必要か？（トップ・一覧・詳細 etc.）</li>
-              <li>タブレット以下のナビゲーション方式は？（ハンバーガー、タブ等）</li>
+              <li>タブレット以下のナビゲーション方式は？（ハンバーガー等）</li>
               <li>Figma への書き出しが必要なページはどれか？</li>
             </div>
           </div>
@@ -562,9 +497,12 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-body">
-            <div class="step-title">Claude Code で案件フォルダを作成</div>
+            <div class="step-title">Claude Code で案件フォルダと CLAUDE.md を作成する</div>
             <div class="step-desc">
-              <code style="background:#eee;padding:1px 6px;border-radius:3px;">wireframe-projects/</code> 直下に案件名のフォルダを作成する。
+              <code style="background:#eee;padding:1px 6px;border-radius:3px;">wireframe-projects/</code> 直下に案件名のフォルダを作成し、案件固有の CLAUDE.md を配置するよう Claude Code に指示する。
+            </div>
+            <div class="step-sub">
+              <li>案件名・ページ一覧・ナビゲーション方式・Figma情報（必要時）を記載</li>
             </div>
           </div>
         </div>
@@ -572,16 +510,72 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-body">
-            <div class="step-title">Claude Code で案件固有の CLAUDE.md を作成</div>
+            <div class="step-title">Claude Code で全ページの HTML を生成する</div>
             <div class="step-desc">
-              以下の内容を含む CLAUDE.md を案件フォルダ内に作成するよう Claude Code に指示する。
+              共通ルール（グレースケール・1200px・レスポンシブ）に沿ったワイヤーフレーム HTML をダミーコンテンツで全ページ生成する。
             </div>
             <div class="step-sub">
-              <li>案件名</li>
-              <li>ページ一覧（ファイル名：ページ名）</li>
-              <li>ナビゲーション方式（タブレット以下）</li>
-              <li>Figma 連携情報（チームキー・ファイルキー）※必要な場合</li>
-              <li>備考（特記事項・制約など）</li>
+              <li>全ページにヘッダーナビを設置し、相互リンクで接続</li>
+              <li>フッターにも全ページリンクを設置</li>
+            </div>
+            <div class="code-block"><span class="comment"># ターミナルで Claude Code を起動する</span>
+claude</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">ブラウザで確認する</div>
+            <div class="step-desc">
+              生成された HTML をブラウザで開き、PC / タブレット / モバイルの各サイズで表示とページ間リンクを確認する。
+            </div>
+            <div class="code-block"><span class="comment"># ターミナルから直接ブラウザで開く</span>
+open wireframe-projects/<span class="val">案件フォルダ</span>/top.html</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 4. 修正・更新の手順 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="update">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>修正・更新の手順</h2>
+      </div>
+      <p>既存のワイヤーフレームを修正・更新するときの流れ。GitHub push 後は Netlify が自動デプロイする。</p>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">ブラウザで現状を確認する</div>
+            <div class="step-desc">
+              修正前に現在の表示を確認し、変更が必要な箇所を把握する。
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Claude Code に修正を指示する</div>
+            <div class="step-desc">
+              変更内容を Claude Code に伝え、HTML ファイルを更新する。複数ページにわたる共通変更（ナビ構造等）は一括で依頼する。
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">ブラウザで修正を確認する</div>
+            <div class="step-desc">
+              PC / タブレット / モバイルの各サイズで表示を確認する。ページ間リンクが正常に機能しているかもチェックする。
             </div>
           </div>
         </div>
@@ -589,24 +583,26 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">4</div>
           <div class="step-body">
-            <div class="step-title">Claude Code で全ページの HTML を生成</div>
+            <div class="step-title">git commit &amp; push する</div>
             <div class="step-desc">
-              共通ルール（グレースケール・1200px・レスポンシブ）に沿ったワイヤーフレーム HTML をダミーコンテンツで全ページ生成する。
+              変更内容をコミットして GitHub に push する。以下のワンライナーで一括実行できる。
             </div>
-            <div class="step-sub">
-              <li>全ページにヘッダーナビを設置し、相互リンクで接続</li>
-              <li>現在ページをアクティブ表示（下線・太字等）</li>
-              <li>フッターにも全ページリンクを設置</li>
-            </div>
+            <div class="code-block">git -C ~/Documents/wireframe-projects add . &amp;&amp; \
+git -C ~/Documents/wireframe-projects commit -m <span class="val">"修正内容のメモ"</span> &amp;&amp; \
+git -C ~/Documents/wireframe-projects push</div>
           </div>
         </div>
 
         <div class="step">
           <div class="step-num">5</div>
           <div class="step-body">
-            <div class="step-title">Claude.ai でレビュー・修正指示</div>
+            <div class="step-title">Netlify が自動デプロイする</div>
             <div class="step-desc">
-              生成された HTML をブラウザで確認し、不足・修正点があれば Claude.ai を通じてまとめ、Claude Code に修正を依頼する。
+              push を検知して Netlify が自動デプロイを開始する。通常 1〜2 分でクライアント共有 URL に反映される。
+            </div>
+            <div class="step-sub">
+              <li>Netlify ダッシュボードの「Deploys」タブでデプロイ状況を確認できる</li>
+              <li>デプロイ完了後、共有 URL をクライアントに案内する</li>
             </div>
           </div>
         </div>
@@ -615,11 +611,108 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
     </section>
 
     <!-- ════════════════════════════════ -->
-    <!-- 4. Figma 連携 -->
+    <!-- 5. GitHub・Netlify連携設定 -->
+    <!-- ════════════════════════════════ -->
+    <section class="section" id="github-netlify">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>GitHub・Netlify 連携設定（初回のみ）</h2>
+      </div>
+      <p>リポジトリを GitHub に登録し、Netlify で自動デプロイを有効にするまでの初期設定。一度設定すれば以降は不要。</p>
+
+      <div style="margin-top: 24px; margin-bottom: 8px; font-weight: bold; font-size: 13px;">▼ GitHub リポジトリの初期設定</div>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">ローカルで git を初期化して GitHub に push する</div>
+            <div class="step-desc">
+              <code style="background:#eee;padding:1px 6px;border-radius:3px;">wireframe-projects/</code> フォルダをリポジトリとして登録する。
+            </div>
+            <div class="code-block">cd ~/Documents/wireframe-projects
+git init
+git add .
+git commit -m <span class="val">"first commit"</span>
+git branch -M main
+git remote add origin https://github.com/<span class="val">ユーザー名</span>/wireframe-projects.git
+git push -u origin main</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">GitHub Personal Access Token を発行する</div>
+            <div class="step-desc">
+              push に認証が必要な場合は GitHub の Settings → Developer settings → Personal access tokens から Token を発行し、push 時の URL に埋め込む。
+            </div>
+            <div class="code-block">git remote set-url origin https://<span class="val">ユーザー名</span>:<span class="val">TOKEN</span>@github.com/<span class="val">ユーザー名</span>/wireframe-projects.git</div>
+            <div class="warn" style="margin-top: 8px;">
+              <strong>注意：</strong> Token は定期的にローテーションすること。コードや履歴にそのまま残さない。
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 24px; margin-bottom: 8px; font-weight: bold; font-size: 13px;">▼ Netlify の自動デプロイ設定</div>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Netlify にログインして新規サイトを作成する</div>
+            <div class="step-desc">
+              Netlify ダッシュボードで「Add new site」→「Import an existing project」を選択する。
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">GitHub リポジトリを接続する</div>
+            <div class="step-desc">
+              「Deploy with GitHub」を選択し、<code style="background:#eee;padding:1px 6px;border-radius:3px;">wireframe-projects</code> リポジトリを選ぶ。
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">デプロイ設定を行い「Deploy site」を実行する</div>
+            <div class="step-desc">以下の設定を確認してからデプロイを開始する。</div>
+            <div class="step-sub">
+              <li>ブランチ：<code>main</code></li>
+              <li>ビルドコマンド：（空欄のまま）</li>
+              <li>公開ディレクトリ：<code>/</code>（ルート）</li>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">発行された URL をクライアントに共有する</div>
+            <div class="step-desc">
+              デプロイ完了後、Netlify が自動生成した URL（例：<code style="background:#eee;padding:1px 6px;border-radius:3px;">https://xxx.netlify.app</code>）をクライアントに案内する。以降は push のたびに自動更新される。
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ════════════════════════════════ -->
+    <!-- 6. Figma 連携手順 -->
     <!-- ════════════════════════════════ -->
     <section class="section" id="figma">
       <div class="section-header">
-        <div class="section-num">4</div>
+        <div class="section-num">6</div>
         <h2>Figma 連携手順</h2>
       </div>
       <p>特定ページを Figma に書き出す場合、または Figma 上の変更を HTML に反映する場合の手順。</p>
@@ -640,7 +733,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-body">
-            <div class="step-title">Claude Code が Figma MCP ツールで書き出しを実行</div>
+            <div class="step-title">Claude Code が Figma MCP ツールで書き出しを実行する</div>
             <div class="step-desc">
               <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">get_metadata</code> でページ構造を確認後、<code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">use_figma</code> でフレームを生成する。グレースケール・1440px 幅で作成される。
             </div>
@@ -649,7 +742,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-body">
-            <div class="step-title">Figma 上で確認・追加編集（手動）</div>
+            <div class="step-title">Figma 上で確認・追加編集する（手動）</div>
             <div class="step-desc">書き出されたフレームを Figma アプリで開き、必要に応じて画像の追加・テキストの調整などを行う。</div>
           </div>
         </div>
@@ -660,14 +753,14 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-body">
-            <div class="step-title">Claude Code に Figma の読み取りを指示</div>
+            <div class="step-title">Claude Code に Figma の読み取りを指示する</div>
             <div class="step-desc">「Figma の Page 1 にある○○フレームの内容を読み取って、○○.html に反映してください」と指示する。</div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-body">
-            <div class="step-title">Claude Code が差分を確認して HTML を更新</div>
+            <div class="step-title">Claude Code が差分を確認して HTML を更新する</div>
             <div class="step-desc">
               <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">get_metadata</code> → <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">get_design_context</code> の順に取得し、Figma 上の変更点のみを HTML に反映する。
             </div>
@@ -676,67 +769,16 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
       </div>
 
       <div class="warn">
-        <strong>注意：</strong> Figma MCP で取得できる画像アセット URL は <strong>7日間</strong> で期限切れになる。URL をそのまま HTML に使う場合は次の「画像のローカル保存手順」を必ず実施すること。
+        <strong>注意：</strong> Figma MCP で取得できる画像アセット URL は <strong>7日間</strong> で期限切れになる。URL をそのまま HTML に使う場合は、画像を <code>images/</code> フォルダにダウンロードしてローカルパスに変更すること。
       </div>
     </section>
 
     <!-- ════════════════════════════════ -->
-    <!-- 5. 画像のローカル保存 -->
-    <!-- ════════════════════════════════ -->
-    <section class="section" id="images">
-      <div class="section-header">
-        <div class="section-num">5</div>
-        <h2>画像のローカル保存手順</h2>
-      </div>
-      <p>Figma から取得した一時 URL の画像をローカルに保存し、HTML から参照する手順。</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <div class="step-title">Claude Code に images フォルダの作成を指示</div>
-            <div class="step-desc">案件フォルダ直下に <code style="background:#eee;padding:1px 6px;border-radius:3px;">images/</code> フォルダを作成するよう指示する。</div>
-            <div class="code-block"><span class="comment">// 指示例</span>
-「しなの鉄道フォルダ内に images フォルダを作成してください。
- 画像ファイルは手動で配置します。」</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <div class="step-title">Figma の一時 URL から画像を手動ダウンロード</div>
-            <div class="step-desc">
-              Claude Code が HTML に出力した <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">https://www.figma.com/api/mcp/asset/...</code> の URL をブラウザで開き、画像をダウンロードする。
-            </div>
-            <div class="step-sub">
-              <li>ダウンロードしたファイルを <code>images/</code> フォルダに移動・リネーム</li>
-              <li>ファイル名は用途がわかる名前にする（例：<code>hero.jpg</code>、<code>banner_suica.jpg</code>）</li>
-            </div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <div class="step-title">Claude Code に src の書き換えを指示</div>
-            <div class="step-desc">一時 URL からローカルパスに変更するよう指示する。</div>
-            <div class="code-block"><span class="comment">// 指示例</span>
-「top.html のヒーロー画像を Figma の一時 URL から
- ローカルの images/hero.jpg に変更してください。」</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="note">
-        <strong>推奨ファイル命名規則：</strong> <code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">hero.jpg</code>（ヒーロー画像）、<code style="background:#eee;padding:1px 6px;border-radius:3px;font-size:11px;">pickup_01.jpg</code>（連番バナー）など、役割がわかる名前にする。
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════ -->
-    <!-- 6. フィードバック対応 -->
+    <!-- 7. クライアントフィードバック対応 -->
     <!-- ════════════════════════════════ -->
     <section class="section" id="feedback">
       <div class="section-header">
-        <div class="section-num">6</div>
+        <div class="section-num">7</div>
         <h2>クライアントフィードバック対応</h2>
       </div>
       <p>クライアントからの修正依頼を受けてから反映するまでの流れ。</p>
@@ -745,7 +787,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-body">
-            <div class="step-title">Claude.ai でフィードバックを整理・分類</div>
+            <div class="step-title">Claude.ai でフィードバックを整理・分類する</div>
             <div class="step-desc">受け取ったフィードバックを Claude.ai に共有し、修正の優先順位・対応方法・影響範囲を整理する。</div>
             <div class="step-sub">
               <li>全ページ共通の変更か、特定ページのみか</li>
@@ -757,29 +799,29 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-body">
-            <div class="step-title">Claude Code に修正を指示</div>
+            <div class="step-title">Claude Code に修正を指示する</div>
             <div class="step-desc">Claude.ai でまとめた修正内容を Claude Code に渡し、HTML ファイルを更新する。複数ページにわたる共通変更（ナビ構造等）は一括で依頼する。</div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-body">
-            <div class="step-title">ブラウザで動作確認</div>
-            <div class="step-desc">修正後のHTMLをブラウザで開き、PC / タブレット / モバイルの各サイズで表示を確認する。ページ間リンクが正常に機能しているかもチェック。</div>
+            <div class="step-title">ブラウザで動作確認する</div>
+            <div class="step-desc">修正後の HTML をブラウザで開き、PC / タブレット / モバイルの各サイズで表示を確認する。ページ間リンクが正常に機能しているかもチェックする。</div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">4</div>
           <div class="step-body">
-            <div class="step-title">必要に応じて Figma を更新</div>
-            <div class="step-desc">Figma 上でデザインレビューしている場合は、HTML の変更を Figma にも反映する。「○○.html の変更内容を Figma の既存フレームに反映してください」と指示する。</div>
+            <div class="step-title">git push して Netlify に自動反映させる</div>
+            <div class="step-desc">「4. 修正・更新の手順」のワンライナーで commit &amp; push する。Netlify が自動デプロイし、クライアント共有 URL が更新される。</div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">5</div>
           <div class="step-body">
-            <div class="step-title">クライアントへの提出</div>
-            <div class="step-desc">修正済みファイル一式（HTMLフォルダ）を圧縮して提出、またはブラウザ確認用 URL を共有する。</div>
+            <div class="step-title">必要に応じて Figma を更新する</div>
+            <div class="step-desc">Figma 上でデザインレビューしている場合は、HTML の変更を Figma にも反映する。「○○.html の変更内容を Figma の既存フレームに反映してください」と指示する。</div>
           </div>
         </div>
       </div>
@@ -788,30 +830,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
     <hr>
 
     <!-- ════════════════════════════════ -->
-    <!-- Reference: フォルダ構成 -->
-    <!-- ════════════════════════════════ -->
-    <section class="section" id="file-structure">
-      <div class="section-header">
-        <div class="section-num" style="background:#666;">R</div>
-        <h2>フォルダ構成</h2>
-      </div>
-      <div class="code-block"><span class="key">wireframe-projects/</span>
-├── <span class="val">CLAUDE.md</span>          <span class="comment"># 全案件共通ルール</span>
-├── <span class="val">workflow.html</span>       <span class="comment"># 本ドキュメント</span>
-│
-├── <span class="key">案件名フォルダ/</span>
-│   ├── <span class="val">CLAUDE.md</span>      <span class="comment"># 案件固有の設定</span>
-│   ├── <span class="val">top.html</span>       <span class="comment"># トップページ</span>
-│   ├── <span class="val">page2.html</span>     <span class="comment"># 各ページ</span>
-│   └── <span class="key">images/</span>        <span class="comment"># 画像ファイル置き場</span>
-│       └── <span class="val">hero.jpg</span>   <span class="comment"># ローカル保存画像</span>
-│
-└── <span class="key">別案件フォルダ/</span>
-    └── ...</div>
-    </section>
-
-    <!-- ════════════════════════════════ -->
-    <!-- Reference: CLAUDE.md 仕様 -->
+    <!-- Reference: 案件CLAUDE.md 仕様 -->
     <!-- ════════════════════════════════ -->
     <section class="section" id="claude-md">
       <div class="section-header">
@@ -828,7 +847,14 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
 <span class="key">- about.html</span><span class="val">: 会社概要ページ</span>
 
 <span class="comment">## ナビゲーション</span>
-<span class="val">- タブレット以下でハンバーガーメニューに切り替え</span>
+<span class="val">- タブレット以下: ハンバーガーメニュー</span>
+<span class="val">- アイコン: Material Icons（`menu` で開く / `close` で閉じる）</span>
+<span class="val">- 展開時: 全画面オーバーレイ・縦並びリスト</span>
+
+<span class="comment">## ナビ項目</span>
+<span class="val">1. ○○</span>
+<span class="val">2. ○○</span>
+<span class="val">3. ○○（CTAボタン）</span>
 
 <span class="comment">## Figma連携</span>
 <span class="key">- チームキー</span><span class="val">: team::XXXXXXXXXXXXX（チーム名）</span>
@@ -840,24 +866,46 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
       <table class="spec-table" style="margin-top:16px;">
         <thead><tr><th>項目</th><th>説明</th></tr></thead>
         <tbody>
-          <tr><td>案件名</td><td>クライアント名とページ・サービス名</td></tr>
-          <tr><td>ページ一覧</td><td>ファイル名：ページ名の形式で全ページを列挙</td></tr>
-          <tr><td>ナビゲーション</td><td>タブレット以下の表示方式（ハンバーガー等）</td></tr>
-          <tr><td>Figma連携</td><td>チームキーとファイルキー。Figma不要の案件は省略可</td></tr>
-          <tr><td>備考</td><td>アコーディオン使用、画像入稿予定等の特記事項</td></tr>
+          <tr>
+            <td>案件名</td>
+            <td>クライアント名とページ・サービス名</td>
+          </tr>
+          <tr>
+            <td>ページ一覧</td>
+            <td>ファイル名：ページ名の形式で全ページを列挙</td>
+          </tr>
+          <tr>
+            <td>ナビゲーション</td>
+            <td>
+              タブレット以下の表示方式を記載。ハンバーガーメニューの場合は以下を明記する：<br>
+              ・アイコン（Material Icons の <code>menu</code> / <code>close</code>）<br>
+              ・展開方式（全画面オーバーレイ・縦並びリスト等）
+            </td>
+          </tr>
+          <tr>
+            <td>ナビ項目</td>
+            <td>ナビゲーションに表示する項目を順番に列挙。CTAボタンも含める</td>
+          </tr>
+          <tr>
+            <td>Figma連携</td>
+            <td>チームキーとファイルキー。Figma不要の案件は省略可</td>
+          </tr>
+          <tr>
+            <td>備考</td>
+            <td>ドロップダウン使用、画像入稿予定、未確定事項等の特記事項</td>
+          </tr>
         </tbody>
       </table>
     </section>
 
     <footer class="page-footer">
-      wireframe-projects / workflow.html　　最終更新：2026年5月15日
+      wireframe-projects / workflow.html　　最終更新：2026年5月27日
     </footer>
 
   </main>
 </div>
 
 <script>
-// サイドバーのアクティブリンク
 const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('.sidebar a');
 const observer = new IntersectionObserver(entries => {
