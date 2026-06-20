@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>審査結果はどのくらいで出ますか？ | FAQ | ジャックス 加盟店ポータルサイト</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* ===== リセット ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans JP', sans-serif; font-size: 16px; line-height: 2; color: #333333; background: #ffffff; }
+    a { color: #333333; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ul { list-style: none; }
+    button { font-family: 'Noto Sans JP', sans-serif; }
+
+    /* ===== レイアウト ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+    /* ===== ヘッダー ===== */
+    .header { background: #ffffff; border-bottom: 1px solid #dddddd; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { display: flex; align-items: center; font-weight: 700; font-size: 16px; }
+    .logo:hover { text-decoration: none; }
+    .header-nav { display: flex; align-items: center; gap: 32px; }
+    .header-nav a { font-size: 15px; font-weight: 500; }
+    .header-hamburger { display: none; background: none; border: none; cursor: pointer; color: #333333; padding: 4px; line-height: 1; }
+
+    /* ===== モバイルメニュー ===== */
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #ffffff; z-index: 200; flex-direction: column; padding: 0 16px; }
+    .mobile-menu.is-open { display: flex; }
+    .mobile-menu-header { display: flex; align-items: center; justify-content: space-between; height: 64px; border-bottom: 1px solid #dddddd; }
+    .mobile-menu-close { background: none; border: none; cursor: pointer; color: #333333; padding: 4px; line-height: 1; }
+    .mobile-nav { padding: 8px 0; }
+    .mobile-nav a { display: block; font-size: 16px; font-weight: 500; padding: 16px 0; border-bottom: 1px solid #dddddd; }
+    .mobile-nav a:hover { text-decoration: none; color: #888888; }
+
+    /* ===== パンくずリスト ===== */
+    .breadcrumb { background: #f0f0f0; padding: 10px 0; }
+    .breadcrumb-list { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; list-style: none; }
+    .breadcrumb-item { font-size: 12px; color: #888888; line-height: 2; }
+    .breadcrumb-item a { color: #888888; }
+    .breadcrumb-item a:hover { color: #333333; }
+    .breadcrumb-sep { font-size: 12px; color: #888888; line-height: 2; }
+
+    /* ===== FAQエリア ===== */
+    .faq-section { padding: 60px 0 100px; }
+
+    /* ===== カテゴリタグ ===== */
+    .faq-category { margin-bottom: 24px; }
+    .faq-tag { display: inline-block; border: 1px solid #333333; border-radius: 2px; padding: 1px 10px; font-size: 12px; line-height: 1.8; }
+
+    /* ===== Q ブロック ===== */
+    .faq-q-block { background: #f0f0f0; border-radius: 4px; padding: 32px; margin-bottom: 4px; }
+    .faq-q-inner { display: flex; align-items: flex-start; gap: 20px; }
+    .faq-label { font-size: 36px; font-weight: 700; line-height: 1.3; flex-shrink: 0; }
+    .faq-label-q { color: #333333; }
+    .faq-label-a { color: #888888; }
+    .faq-question { font-size: 36px; font-weight: 700; line-height: 1.3; }
+
+    /* ===== A ブロック ===== */
+    .faq-a-block { background: #ffffff; border: 1px solid #dddddd; border-radius: 4px; padding: 32px; margin-bottom: 60px; }
+    .faq-a-inner { display: flex; align-items: flex-start; gap: 20px; }
+    .faq-answer { flex: 1; min-width: 0; }
+    .faq-answer p { font-size: 16px; line-height: 2; margin-bottom: 24px; }
+    .faq-answer ul { margin-bottom: 24px; }
+    .faq-answer ul li { font-size: 16px; line-height: 2; padding-left: 20px; position: relative; }
+    .faq-answer ul li::before { content: '・'; position: absolute; left: 0; }
+    .faq-answer h3 { font-size: 26px; font-weight: 700; line-height: 1.3; margin-top: 40px; margin-bottom: 16px; }
+    .answer-note { font-size: 12px; color: #888888; line-height: 2; margin-bottom: 16px; }
+
+    /* ===== 回答内テーブル ===== */
+    .info-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+    .info-table { width: 100%; border-collapse: collapse; }
+    .info-table th { background: #f0f0f0; border: 1px solid #dddddd; padding: 12px 20px; font-size: 15px; font-weight: 700; text-align: left; white-space: nowrap; }
+    .info-table td { border: 1px solid #dddddd; padding: 12px 20px; font-size: 15px; line-height: 1.8; }
+
+    /* ===== 関連FAQ ===== */
+    .related-section { margin-bottom: 60px; }
+    .section-heading { margin-bottom: 32px; }
+    .section-heading-border { border-left: 4px solid #333333; padding-left: 16px; }
+    .section-heading-border h2 { font-size: 30px; font-weight: 700; line-height: 1.3; }
+    .related-list { border-top: 1px solid #dddddd; }
+    .related-item a { display: flex; align-items: flex-start; gap: 12px; padding: 16px 0; border-bottom: 1px solid #dddddd; }
+    .related-item a:hover { text-decoration: none; background: #f0f0f0; }
+    .related-q { font-size: 18px; font-weight: 700; color: #888888; flex-shrink: 0; line-height: 1.4; }
+    .related-text { font-size: 15px; line-height: 1.6; }
+
+    /* ===== ページ下部アクション ===== */
+    .page-actions { padding-top: 40px; border-top: 1px solid #dddddd; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #333333; border-radius: 4px; padding: 12px 24px; font-size: 15px; font-weight: 500; }
+    .back-link:hover { text-decoration: none; background: #f0f0f0; }
+
+    /* ===== コピーライト ===== */
+    .footer-copy { background: #f0f0f0; text-align: center; padding: 16px 0; }
+    .footer-copy p { font-size: 12px; color: #888888; line-height: 2; }
+
+    /* ===== タブレット（600px〜1023px） ===== */
+    @media (max-width: 1023px) {
+      .header-nav { display: none; }
+      .header-hamburger { display: flex; }
+      .faq-section { padding: 40px 0 60px; }
+      .faq-question { font-size: 28px; }
+      .faq-label { font-size: 28px; }
+      .faq-answer h3 { font-size: 22px; margin-top: 32px; }
+      .section-heading-border h2 { font-size: 26px; }
+    }
+
+    /* ===== モバイル（599px以下） ===== */
+    @media (max-width: 599px) {
+      .container { padding: 0 16px; }
+      .faq-section { padding: 32px 0 40px; }
+      .faq-q-block { padding: 20px; }
+      .faq-a-block { padding: 20px; }
+      .faq-question { font-size: 28px; }
+      .faq-label { font-size: 28px; }
+      .faq-q-inner { gap: 12px; }
+      .faq-a-inner { gap: 12px; }
+      .faq-answer h3 { font-size: 20px; }
+    }
+
+    /* メニュー開放時にボディスクロール禁止 */
+    body.menu-open { overflow: hidden; }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="top.html" class="logo">
+        <span>ジャックス 加盟店ポータル</span>
+      </a>
+      <nav class="header-nav">
+        <a href="#">お知らせ</a>
+        <a href="#">FAQ</a>
+        <a href="#">各種申請</a>
+        <a href="#">お問い合わせ</a>
+      </nav>
+      <button class="header-hamburger" id="hamburgerOpen" aria-label="メニューを開く">
+        <span class="material-icons">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- モバイルメニュー -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <div class="logo">
+      <span>ジャックス 加盟店ポータル</span>
+    </div>
+    <button class="mobile-menu-close" id="hamburgerClose" aria-label="メニューを閉じる">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="#">お知らせ</a>
+    <a href="#">FAQ</a>
+    <a href="#">各種申請</a>
+    <a href="#">お問い合わせ</a>
+  </nav>
+</div>
+
+<!-- パンくずリスト -->
+<nav class="breadcrumb" aria-label="パンくずリスト">
+  <div class="container">
+    <ol class="breadcrumb-list">
+      <li class="breadcrumb-item"><a href="top.html">ホーム</a></li>
+      <li class="breadcrumb-sep">›</li>
+      <li class="breadcrumb-item"><a href="#">FAQ</a></li>
+      <li class="breadcrumb-sep">›</li>
+      <li class="breadcrumb-item">審査結果はどのくらいで出ますか？</li>
+    </ol>
+  </div>
+</nav>
+
+<!-- FAQエリア -->
+<main class="faq-section">
+  <div class="container">
+
+    <!-- カテゴリタグ -->
+    <div class="faq-category">
+      <span class="faq-tag">自動車</span>
+    </div>
+
+    <!-- Q ブロック -->
+    <div class="faq-q-block">
+      <div class="faq-q-inner">
+        <span class="faq-label faq-label-q">Q</span>
+        <h1 class="faq-question">審査結果はどのくらいで出ますか？</h1>
+      </div>
+    </div>
+
+    <!-- A ブロック -->
+    <div class="faq-a-block">
+      <div class="faq-a-inner">
+        <span class="faq-label faq-label-a">A</span>
+        <div class="faq-answer">
+          <p>審査結果は、通常、申込書類の受付完了後から<strong>1〜3営業日</strong>以内にご連絡いたします。ただし、申込内容や書類の状況によっては、追加確認が必要となる場合があり、その際はお時間をいただくことがございます。</p>
+
+          <h3>申込種別ごとの審査期間の目安</h3>
+          <div class="info-table-wrap">
+            <table class="info-table">
+              <tr>
+                <th>申込種別</th>
+                <th>審査期間の目安</th>
+              </tr>
+              <tr>
+                <td>通常申込（書類不備なし）</td>
+                <td>1〜3営業日</td>
+              </tr>
+              <tr>
+                <td>追加確認が必要な場合</td>
+                <td>3〜7営業日程度</td>
+              </tr>
+              <tr>
+                <td>書類の再提出が発生した場合</td>
+                <td>再提出受付後 1〜3営業日</td>
+              </tr>
+            </table>
+          </div>
+          <p class="answer-note">※ 営業日は土日祝・年末年始を除いた日数です。<br>
+          ※ 審査期間はあくまでも目安であり、申込内容・時期によって前後する場合がございます。</p>
+
+          <h3>審査状況の確認方法</h3>
+          <p>審査状況はポータルサイトの「審査状況照会」画面からリアルタイムでご確認いただけます。照会画面では以下の情報を確認できます。</p>
+          <ul>
+            <li>審査ステータス（受付中・審査中・審査完了・否決）</li>
+            <li>書類受付日・審査完了日</li>
+            <li>書類不備がある場合の不備内容と対応方法</li>
+            <li>追加確認が必要な場合のご案内</li>
+          </ul>
+
+          <h3>審査が長引く主な原因</h3>
+          <p>下記に該当する場合、標準よりも審査に時間がかかることがあります。あらかじめご了承ください。</p>
+          <ul>
+            <li>提出書類に記載漏れ・誤記がある場合</li>
+            <li>必要書類が不足している場合</li>
+            <li>申込内容について追加の確認が必要な場合</li>
+            <li>申込が集中する時期（年度末・大型連休前後など）</li>
+          </ul>
+          <p>書類の不備があった場合は、ポータルサイト上または担当者よりご連絡いたします。お早めにご対応いただけますと、審査の迅速化につながります。</p>
+
+          <h3>結果通知の方法</h3>
+          <p>審査完了後、結果はポータルサイトの「審査状況照会」画面に反映されます。また、審査完了時にはご登録のメールアドレスへ通知メールをお送りします。承認の場合はご契約手続きへ、否決の場合は否決理由のご案内とともに次のステップをご連絡いたします。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 関連FAQ -->
+    <section class="related-section">
+      <div class="section-heading">
+        <div class="section-heading-border">
+          <h2>関連するよくあるご質問</h2>
+        </div>
+      </div>
+      <ul class="related-list">
+        <li class="related-item">
+          <a href="faq-detail.html">
+            <span class="related-q">Q</span>
+            <span class="related-text">申込書類に不備があった場合、どのように対応すればよいですか？</span>
+          </a>
+        </li>
+        <li class="related-item">
+          <a href="faq-detail.html">
+            <span class="related-q">Q</span>
+            <span class="related-text">審査が否決された場合、再申込はできますか？</span>
+          </a>
+        </li>
+        <li class="related-item">
+          <a href="faq-detail.html">
+            <span class="related-q">Q</span>
+            <span class="related-text">ローン残高の照会はどこから確認できますか？</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ページ下部アクション -->
+    <div class="page-actions">
+      <a href="top.html" class="back-link">
+        <span class="material-icons">arrow_back</span>
+        FAQ一覧に戻る
+      </a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer-copy">
+  <p>&copy; 2026 JACCS CO.,LTD. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // ハンバーガーメニュー
+  var hamburgerOpen = document.getElementById('hamburgerOpen');
+  var hamburgerClose = document.getElementById('hamburgerClose');
+  var mobileMenu = document.getElementById('mobileMenu');
+
+  hamburgerOpen.addEventListener('click', function () {
+    mobileMenu.classList.add('is-open');
+    document.body.classList.add('menu-open');
+  });
+
+  hamburgerClose.addEventListener('click', function () {
+    mobileMenu.classList.remove('is-open');
+    document.body.classList.remove('menu-open');
+  });
+</script>
+
+</body>
+</html>
