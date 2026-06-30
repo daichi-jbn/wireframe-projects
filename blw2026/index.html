@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JBUG Backlog World 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* ===== Reset ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ul, ol { list-style: none; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== Base ===== */
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 16px;
+      line-height: 2;
+      color: #333333;
+      background: #ffffff;
+    }
+    html {
+      scroll-padding-top: 64px;
+    }
+    .no-scroll {
+      overflow: hidden;
+    }
+
+    /* ===== Layout ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border-bottom: 1px solid #dddddd;
+      z-index: 1000;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .header-logo-mark {
+      width: 36px;
+      height: 36px;
+      background: #333333;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 4px;
+      line-height: 1;
+    }
+    .header-logo-text {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .header-nav {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 0 20px;
+    }
+    .header-nav-list {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .header-nav-item a {
+      font-size: 12px;
+      white-space: nowrap;
+      color: #333333;
+    }
+    .header-cta {
+      flex-shrink: 0;
+    }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333333;
+      padding: 4px;
+      align-items: center;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .btn--primary {
+      background: #333333;
+      color: #ffffff;
+      border: 1px solid #333333;
+    }
+    .btn--secondary {
+      background: none;
+      color: #333333;
+      border: 1px solid #333333;
+    }
+
+    /* ===== Nav Overlay（タブレット以下） ===== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-overlay.is-open {
+      display: flex;
+    }
+    .nav-overlay-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333333;
+      display: flex;
+      align-items: center;
+    }
+    .nav-overlay-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-overlay-list a {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .nav-overlay-cta {
+      margin-top: 8px;
+    }
+
+    /* ===== Main ===== */
+    .main {
+      padding-top: 64px;
+    }
+
+    /* ===== Sections ===== */
+    .section {
+      padding: 100px 0;
+    }
+    .section--gray {
+      background: #f0f0f0;
+      padding: 50px 0;
+    }
+
+    /* ===== Section Heading ===== */
+    .section-heading {
+      border-left: 4px solid #333333;
+      padding-left: 16px;
+      margin-bottom: 32px;
+    }
+    .section-heading h2 {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .section-heading p {
+      font-size: 16px;
+      color: #888888;
+      line-height: 2;
+    }
+
+    /* ===== Placeholders ===== */
+    .placeholder {
+      background: #f0f0f0;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888888;
+      font-size: 14px;
+    }
+    /* グレー背景セクション内ではプレースホルダーを白にして区別 */
+    .section--gray .placeholder {
+      background: #ffffff;
+    }
+    .placeholder--hero {
+      width: 100%;
+      height: 480px;
+    }
+    .placeholder--content {
+      width: 100%;
+      height: 200px;
+    }
+    .placeholder--map {
+      width: 100%;
+      height: 360px;
+    }
+    .placeholder--sns {
+      width: 160px;
+      height: 60px;
+    }
+
+    /* ===== Hero ===== */
+    .hero-visual {
+      position: relative;
+    }
+    .hero-visual-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .hero-visual-overlay .container {
+      width: 100%;
+    }
+    .hero-heading {
+      padding-bottom: 40px;
+      text-align: left;
+    }
+    .hero-h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .hero-scroll {
+      overflow-x: auto;
+      padding: 24px 40px;
+      border-bottom: 1px solid #dddddd;
+    }
+    .hero-scroll-inner {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+    }
+    .hero-scroll-item {
+      width: 200px;
+      height: 133px;
+      flex-shrink: 0;
+    }
+
+    /* ===== Hero Heading ===== */
+    .hero-sub-top {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 12px;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .hero-meta-item .material-icons {
+      font-size: 18px;
+    }
+
+    /* ===== Access ===== */
+    .access-detail {
+      margin-top: 24px;
+    }
+
+    /* ===== SNS ===== */
+    .sns-list {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      border-top: 1px solid #dddddd;
+      padding: 60px 0 0;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 48px;
+    }
+    .footer-left {
+      flex-shrink: 0;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-logo-mark {
+      width: 36px;
+      height: 36px;
+      background: #333333;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 4px;
+      line-height: 1;
+    }
+    .footer-logo-text {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .footer-address {
+      font-size: 14px;
+      color: #888888;
+      line-height: 1.8;
+    }
+    .footer-nav {
+      display: flex;
+      gap: 48px;
+    }
+    .footer-nav-col h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .footer-nav-col ul {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer-nav-col ul li a {
+      font-size: 13px;
+      color: #888888;
+    }
+    .footer-copyright {
+      background: #f0f0f0;
+      margin-top: 60px;
+      padding: 16px 0;
+      text-align: center;
+      font-size: 12px;
+      color: #888888;
+      line-height: 2;
+    }
+
+    /* ===== Responsive: Tablet ===== */
+    @media (max-width: 1023px) {
+      .header-nav { display: none; }
+      .header-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .container { padding: 0 24px; }
+
+      .section { padding: 60px 0; }
+      .section--gray { padding: 30px 0; }
+
+      .hero-heading { padding-bottom: 24px; }
+      .hero-h1 { font-size: 28px; }
+      .hero-scroll { padding: 20px 24px; }
+
+      .footer-inner { flex-direction: column; gap: 40px; }
+      .footer-nav { flex-wrap: wrap; gap: 32px; }
+    }
+
+    /* ===== Responsive: Mobile ===== */
+    @media (max-width: 599px) {
+      .container { padding: 0 16px; }
+
+      .section { padding: 40px 0; }
+      .section--gray { padding: 20px 0; }
+
+      .section-heading h2 { font-size: 28px; }
+
+      .placeholder--hero { height: 320px; }
+      .hero-heading { padding-bottom: 20px; }
+      .hero-scroll { padding: 16px 16px; }
+      .hero-sub-top { font-size: 12px; }
+      .hero-meta-item { font-size: 12px; }
+
+      .footer-nav { flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+
+        <!-- ロゴ -->
+        <div class="header-logo">
+          <div class="header-logo-mark">JBUG</div>
+          <span class="header-logo-text">Backlog World 2026</span>
+        </div>
+
+        <!-- ナビゲーション PC（案A: 全9項目横一列） -->
+        <nav class="header-nav" aria-label="メインナビゲーション">
+          <ul class="header-nav-list">
+            <li class="header-nav-item"><a href="#news">ニュース</a></li>
+            <li class="header-nav-item"><a href="#theme">テーマ</a></li>
+            <li class="header-nav-item"><a href="#message">メッセージ</a></li>
+            <li class="header-nav-item"><a href="#schedule">スケジュール</a></li>
+            <li class="header-nav-item"><a href="#speakers">登壇者</a></li>
+            <li class="header-nav-item"><a href="#sponsor">スポンサー</a></li>
+            <li class="header-nav-item"><a href="#access">アクセス</a></li>
+            <li class="header-nav-item"><a href="#staff">スタッフ</a></li>
+            <li class="header-nav-item"><a href="#note">note</a></li>
+          </ul>
+        </nav>
+
+        <!-- CTA -->
+        <div class="header-cta">
+          <a href="#" class="btn btn--primary">参加登録する</a>
+        </div>
+
+        <!-- ハンバーガー（タブレット以下） -->
+        <button class="hamburger" id="js-hamburger" aria-label="メニューを開く">
+          <span class="material-icons">menu</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Nav Overlay（タブレット以下） ===== -->
+  <div class="nav-overlay" id="js-nav-overlay" role="dialog" aria-modal="true" aria-label="ナビゲーション">
+    <button class="nav-overlay-close" id="js-nav-close" aria-label="メニューを閉じる">
+      <span class="material-icons">close</span>
+    </button>
+    <ul class="nav-overlay-list">
+      <li><a href="#news" class="js-nav-link">ニュース</a></li>
+      <li><a href="#theme" class="js-nav-link">テーマ</a></li>
+      <li><a href="#message" class="js-nav-link">メッセージ</a></li>
+      <li><a href="#schedule" class="js-nav-link">スケジュール</a></li>
+      <li><a href="#speakers" class="js-nav-link">登壇者</a></li>
+      <li><a href="#sponsor" class="js-nav-link">スポンサー</a></li>
+      <li><a href="#access" class="js-nav-link">アクセス</a></li>
+      <li><a href="#staff" class="js-nav-link">スタッフ</a></li>
+      <li><a href="#note" class="js-nav-link">note</a></li>
+      <li class="nav-overlay-cta"><a href="#" class="btn btn--primary">参加登録する</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== Main ===== -->
+  <main class="main">
+
+    <!-- ① ヒーロー -->
+    <section class="hero">
+      <!-- メインビジュアル -->
+      <div class="hero-visual">
+        <div class="placeholder placeholder--hero">（メインビジュアル）</div>
+        <div class="hero-visual-overlay">
+          <div class="container">
+            <div class="hero-heading">
+              <p class="hero-sub-top">プロジェクトマネジメントに関わる全ての方のための祭典</p>
+              <h1 class="hero-h1">Backlog World 2026</h1>
+              <div class="hero-meta">
+                <span class="hero-meta-item">
+                  <span class="material-icons">schedule</span>
+                  2026.11.28（土）10:00〜18:00
+                </span>
+                <span class="hero-meta-item">
+                  <span class="material-icons">place</span>
+                  パシフィコ横浜ノース
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- イベント画像 横スクロールエリア -->
+      <div class="hero-scroll">
+        <div class="hero-scroll-inner">
+          <div class="placeholder hero-scroll-item">（画像）</div>
+          <div class="placeholder hero-scroll-item">（画像）</div>
+          <div class="placeholder hero-scroll-item">（画像）</div>
+          <div class="placeholder hero-scroll-item">（画像）</div>
+          <div class="placeholder hero-scroll-item">（画像）</div>
+          <div class="placeholder hero-scroll-item">（画像）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② ニュース -->
+    <section id="news" class="section--gray">
+      <div class="container">
+        <div class="section-heading">
+          <h2>ニュース</h2>
+          <p>最新情報</p>
+        </div>
+        <div class="placeholder placeholder--content">（更新情報リスト）</div>
+      </div>
+    </section>
+
+    <!-- ③ テーマ -->
+    <section id="theme" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>テーマ</h2>
+          <p>群青の羅針盤</p>
+        </div>
+        <div class="placeholder placeholder--content">（テーマ説明テキスト）</div>
+      </div>
+    </section>
+
+    <!-- ④ メッセージ -->
+    <section id="message" class="section--gray">
+      <div class="container">
+        <div class="section-heading">
+          <h2>メッセージ</h2>
+          <p>実行委員長挨拶</p>
+        </div>
+        <div class="placeholder placeholder--content">（メッセージテキスト）</div>
+      </div>
+    </section>
+
+    <!-- ⑤ タイムスケジュール -->
+    <section id="schedule" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>タイムスケジュール</h2>
+          <p>2ホール制</p>
+        </div>
+        <div class="placeholder placeholder--content">（タイムテーブル）</div>
+      </div>
+    </section>
+
+    <!-- ⑥ 登壇者 -->
+    <section id="speakers" class="section--gray">
+      <div class="container">
+        <div class="section-heading">
+          <h2>登壇者</h2>
+          <p>基調講演・招待講演・公募セッション・ヌーラボ推薦枠・ワークショップ</p>
+        </div>
+        <div class="placeholder placeholder--content">（登壇者一覧 ※表示方法要検討）</div>
+      </div>
+    </section>
+
+    <!-- ⑦ スポンサー -->
+    <section id="sponsor" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>スポンサー</h2>
+          <p>プラチナ・ゴールド・シルバー・ブロンズ・個人スポンサー</p>
+        </div>
+        <div class="placeholder placeholder--content">（スポンサー一覧 ※表示方法要検討）</div>
+      </div>
+    </section>
+
+    <!-- ⑧ アクセス -->
+    <section id="access" class="section--gray">
+      <div class="container">
+        <div class="section-heading">
+          <h2>アクセス</h2>
+          <p>会場へのアクセス</p>
+        </div>
+        <div class="placeholder placeholder--map">（地図）</div>
+        <div class="placeholder placeholder--content access-detail">（住所・最寄駅・出口・徒歩分数・経路詳細）</div>
+      </div>
+    </section>
+
+    <!-- ⑨ スタッフ紹介 -->
+    <section id="staff" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>スタッフ紹介</h2>
+          <p>運営スタッフ</p>
+        </div>
+        <div class="placeholder placeholder--content">（スタッフ一覧 ※表示方法要検討）</div>
+      </div>
+    </section>
+
+    <!-- ⑩ note -->
+    <section id="note" class="section--gray">
+      <div class="container">
+        <div class="section-heading">
+          <h2>note</h2>
+          <p>カテゴリ別記事一覧（※セクションタイトル要検討）</p>
+        </div>
+        <div class="placeholder placeholder--content">（note記事一覧・カテゴリ絞り込み）</div>
+      </div>
+    </section>
+
+    <!-- ⑪ 各種SNS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>各種SNS</h2>
+          <p>公式アカウント</p>
+        </div>
+        <ul class="sns-list">
+          <li><div class="placeholder placeholder--sns">X（旧Twitter）</div></li>
+          <li><div class="placeholder placeholder--sns">Facebook</div></li>
+          <li><div class="placeholder placeholder--sns">YouTube</div></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+
+        <!-- 左: ロゴ＋住所 -->
+        <div class="footer-left">
+          <div class="footer-logo">
+            <div class="footer-logo-mark">JBUG</div>
+            <span class="footer-logo-text">Backlog World 2026</span>
+          </div>
+          <p class="footer-address">
+            JBUG Backlog World 2026 実行委員会<br>
+            〒000-0000 （会場住所）<br>
+            TEL: 000-0000-0000
+          </p>
+        </div>
+
+        <!-- 右: ページ動線 -->
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <div class="footer-nav-col">
+            <h3>イベント情報</h3>
+            <ul>
+              <li><a href="#theme">テーマ</a></li>
+              <li><a href="#schedule">タイムスケジュール</a></li>
+              <li><a href="#speakers">登壇者</a></li>
+            </ul>
+          </div>
+          <div class="footer-nav-col">
+            <h3>参加・支援</h3>
+            <ul>
+              <li><a href="#news">ニュース</a></li>
+              <li><a href="#sponsor">スポンサー</a></li>
+            </ul>
+          </div>
+          <div class="footer-nav-col">
+            <h3>その他</h3>
+            <ul>
+              <li><a href="#message">メッセージ</a></li>
+              <li><a href="#access">アクセス</a></li>
+              <li><a href="#staff">スタッフ紹介</a></li>
+              <li><a href="#note">note</a></li>
+            </ul>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+    <!-- コピーライト -->
+    <div class="footer-copyright">
+      <p>&copy; 2026 JBUG Backlog World 2026 実行委員会</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('js-hamburger');
+    const overlay = document.getElementById('js-nav-overlay');
+    const navClose = document.getElementById('js-nav-close');
+    const navLinks = document.querySelectorAll('.js-nav-link');
+
+    function openOverlay() {
+      overlay.classList.add('is-open');
+      document.body.classList.add('no-scroll');
+    }
+
+    function closeOverlay() {
+      overlay.classList.remove('is-open');
+      document.body.classList.remove('no-scroll');
+    }
+
+    hamburger.addEventListener('click', openOverlay);
+    navClose.addEventListener('click', closeOverlay);
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', closeOverlay);
+    });
+  </script>
+
+</body>
+</html>

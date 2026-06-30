@@ -4,7 +4,10 @@
       "mcp__claude_ai_Figma__get_metadata",
       "mcp__claude_ai_Figma__use_figma",
       "mcp__claude_ai_Figma__get_design_context",
-      "Bash(grep -n '\\\\.section-title\\\\|^p {\\\\|\\\\.note {' /Users/kanekodaichi/Documents/wireframe-projects/しなの鉄道/__TRACKED_VAR__)"
+      "Bash(grep -n '\\\\.section-title\\\\|^p {\\\\|\\\\.note {' /Users/kanekodaichi/Documents/wireframe-projects/しなの鉄道/__TRACKED_VAR__)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
     ]
   }
 }
