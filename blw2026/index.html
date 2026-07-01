@@ -21,7 +21,7 @@
       background: #ffffff;
     }
     html {
-      scroll-padding-top: 64px;
+      scroll-padding-top: 80px;
     }
     .no-scroll {
       overflow: hidden;
@@ -48,7 +48,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      height: 80px;
     }
     .header-logo {
       display: flex;
@@ -76,8 +76,8 @@
     .header-nav {
       flex: 1;
       display: flex;
-      justify-content: center;
-      padding: 0 20px;
+      justify-content: flex-end;
+      padding-right: 24px;
     }
     .header-nav-list {
       display: flex;
@@ -85,7 +85,8 @@
       gap: 18px;
     }
     .header-nav-item a {
-      font-size: 12px;
+      font-size: 16px;
+      font-weight: 400;
       white-space: nowrap;
       color: #333333;
     }
@@ -211,7 +212,7 @@
     }
     .placeholder--hero {
       width: 100%;
-      height: 480px;
+      height: 600px;
     }
     .placeholder--content {
       width: 100%;
@@ -250,18 +251,23 @@
       line-height: 1.3;
     }
     .hero-scroll {
-      overflow-x: auto;
-      padding: 24px 40px;
+      overflow: hidden;
+      padding: 24px 0;
       border-bottom: 1px solid #dddddd;
+    }
+    @keyframes hero-scroll-loop {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
     .hero-scroll-inner {
       display: flex;
       gap: 16px;
       width: max-content;
+      animation: hero-scroll-loop 35s linear infinite;
     }
     .hero-scroll-item {
-      width: 200px;
-      height: 133px;
+      width: 360px;
+      height: 240px;
       flex-shrink: 0;
     }
 
@@ -281,92 +287,736 @@
     .hero-meta-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 14px;
+      gap: 8px;
+      font-size: 20px;
       font-weight: 500;
     }
     .hero-meta-item .material-icons {
+      font-size: 24px;
+    }
+
+    /* ===== Hero CTA（タブレット以下のみ表示） ===== */
+    .hero-cta {
+      display: none;
+      margin-top: 20px;
+    }
+
+    /* ===== Theme ===== */
+    .theme-body {
+      text-align: center;
+      padding: 24px 0 8px;
+    }
+    .theme-title {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .theme-desc {
+      font-size: 16px;
+      line-height: 2;
+      color: #333333;
+    }
+
+    /* ===== Message ===== */
+    /* ===== Message ===== */
+    .message-columns {
+      display: flex;
+      gap: 64px;
+      align-items: flex-start;
+    }
+    .message-col-left {
+      flex: 3;
+    }
+    .message-col-right {
+      flex: 7;
+    }
+    .message-photo {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      margin-bottom: 16px;
+    }
+    .message-role {
+      font-size: 12px;
+      color: #888888;
+      margin-bottom: 4px;
+    }
+    .message-name {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .message-profile-text {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #888888;
+    }
+    .message-greeting {
       font-size: 18px;
+      line-height: 2;
+    }
+
+    @media (max-width: 1023px) {
+      .message-columns {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+      }
+      .message-col-left {
+        flex: none;
+        width: 100%;
+      }
+      .message-col-right {
+        flex: none;
+        width: 100%;
+      }
+    }
+
+    /* ===== Schedule ===== */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .schedule-hall-title {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #333333;
+      margin-bottom: 0;
+    }
+    .schedule-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid #dddddd;
+    }
+    .schedule-time {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333333;
+      white-space: nowrap;
+      flex-shrink: 0;
+      width: 120px;
+      padding-top: 2px;
+    }
+    .schedule-body {
+      flex: 1;
+    }
+    .schedule-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      background: #333333;
+      color: #ffffff;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-bottom: 6px;
+    }
+    .schedule-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+    .schedule-speaker {
+      font-size: 14px;
+      color: #888888;
+      line-height: 1.6;
+    }
+    .schedule-note {
+      font-size: 16px;
+      color: #888888;
+      line-height: 2;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1023px) {
+      .schedule-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    /* ===== Contents ===== */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .content-card {
+      background: #f0f0f0;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .content-card-img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: #ffffff;
+      border-bottom: 1px solid #dddddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888888;
+      font-size: 14px;
+    }
+    .content-card-body {
+      padding: 20px;
+    }
+    .content-card-title {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .content-card-desc {
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    /* ===== Blog ===== */
+    .blog-category {
+      margin-bottom: 64px;
+    }
+    .blog-category:last-child {
+      margin-bottom: 0;
+    }
+    .blog-category-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .blog-category-title {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .blog-card {
+      display: block;
+      text-decoration: none;
+      color: #333333;
+    }
+    .blog-card-img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: #f0f0f0;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888888;
+      font-size: 14px;
+    }
+    .blog-card-body {
+      padding: 12px 0 0;
+    }
+    .blog-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    /* ===== News ===== */
+    .news-list {}
+    .news-item {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 16px 0;
+      border-bottom: 1px solid #dddddd;
+    }
+    .news-item:first-child {
+      border-top: 1px solid #dddddd;
+    }
+    .news-date {
+      font-size: 14px;
+      color: #888888;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .news-title {
+      font-size: 16px;
+      line-height: 2;
+    }
+    .news-title a {
+      color: #333333;
+      text-decoration: underline;
     }
 
     /* ===== Access ===== */
-    .access-detail {
-      margin-top: 24px;
+    .access-columns {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .access-map-col {
+      flex: 6;
+      min-width: 0;
+    }
+    .access-map {
+      width: 100%;
+      height: 400px;
+    }
+    .access-map-action {
+      margin-top: 12px;
+    }
+    .access-info-col {
+      flex: 4;
+      min-width: 0;
+    }
+    .access-venue {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .access-address {
+      font-size: 16px;
+      line-height: 2;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #dddddd;
+    }
+    .access-stations {
+      margin-bottom: 28px;
+    }
+    .access-stations-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #888888;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .access-station-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .access-station-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .access-station-item .material-icons {
+      font-size: 20px;
+      color: #888888;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .access-station-walk {
+      white-space: nowrap;
+    }
+    .access-expand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 16px;
+      color: #333333;
+    }
+    .access-expand-link-text {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .access-expand-link .material-icons {
+      font-size: 16px;
+    }
+    .access-info-col .btn {
+      font-size: 16px;
+    }
+    .btn .material-icons {
+      font-size: 16px;
+      margin-left: 6px;
     }
 
     /* ===== SNS ===== */
     .sns-list {
       display: flex;
-      gap: 16px;
+      justify-content: center;
+      gap: 56px;
       flex-wrap: wrap;
+      list-style: none;
     }
-
-    /* ===== Footer ===== */
-    .footer {
-      border-top: 1px solid #dddddd;
-      padding: 60px 0 0;
-    }
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 48px;
-    }
-    .footer-left {
-      flex-shrink: 0;
-    }
-    .footer-logo {
+    .sns-link {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+      text-decoration: none;
+      color: #333333;
     }
-    .footer-logo-mark {
-      width: 36px;
-      height: 36px;
+    .sns-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
       background: #333333;
-      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      color: #ffffff;
+      font-size: 40px;
       font-weight: 700;
-      border-radius: 4px;
       line-height: 1;
     }
-    .footer-logo-text {
-      font-size: 14px;
+
+    /* ===== Closing ===== */
+
+    /* ===== Speakers ===== */
+    .speaker-category-title {
+      font-size: 26px;
       font-weight: 700;
+      line-height: 1.3;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #333333;
+      margin-top: 60px;
     }
-    .footer-address {
-      font-size: 14px;
-      color: #888888;
-      line-height: 1.8;
+    .speaker-category:first-child .speaker-category-title {
+      margin-top: 0;
     }
-    .footer-nav {
+    .speaker-item {
       display: flex;
       gap: 48px;
+      align-items: flex-start;
+      padding: 48px 0;
+      border-bottom: 1px solid #dddddd;
     }
-    .footer-nav-col h3 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 12px;
+    .speaker-item--reverse {
+      flex-direction: row-reverse;
     }
-    .footer-nav-col ul {
+    .speaker-photo-col {
+      flex: 3;
+      min-width: 0;
+    }
+    .speaker-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .speaker-text-col {
+      flex: 7;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
-    .footer-nav-col ul li a {
-      font-size: 13px;
+    .speaker-affiliation {
+      font-size: 14px;
+      color: #888888;
+      line-height: 1.5;
+    }
+    .speaker-role {
+      font-size: 14px;
+      color: #888888;
+      line-height: 1.5;
+    }
+    .speaker-name {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .speaker-bio {
+      font-size: 16px;
+      line-height: 2;
+    }
+    .speaker-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 4px 0;
+    }
+    .speaker-link {
+      display: flex;
+      align-items: center;
+      color: #333333;
+    }
+    .speaker-link .material-icons {
+      font-size: 22px;
+    }
+    .speaker-btn {
+      align-self: flex-start;
+      margin-top: 8px;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .speaker-btn .material-icons {
+      font-size: 18px;
+    }
+
+    /* ===== Sponsor ===== */
+    .sponsor-tier {
+      margin-top: 40px;
+    }
+    .sponsor-tier:first-child {
+      margin-top: 0;
+    }
+    .sponsor-tier-label {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .sponsor-grid {
+      display: grid;
+    }
+    .sponsor-grid--platinum { grid-template-columns: 1fr; gap: 0; }
+    .sponsor-grid--gold     { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .sponsor-grid--silver   { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .sponsor-grid--bronze   { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .sponsor-grid--individual { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+    .sponsor-card {
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+    }
+
+    /* Platinum */
+    .sponsor-card--platinum {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      padding: 56px 40px;
+    }
+    .sponsor-logo-col { flex-shrink: 0; }
+    .sponsor-logo-p {
+      width: 200px;
+      aspect-ratio: 3 / 2;
+    }
+    .sponsor-info { flex: 1; }
+    .sponsor-name--platinum {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .sponsor-desc {
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    /* Gold */
+    .sponsor-card--gold { padding: 40px 28px; }
+    .sponsor-logo-g {
+      max-width: 240px;
+      aspect-ratio: 3 / 2;
+      margin: 0 auto 16px;
+    }
+    .sponsor-name--gold {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .sponsor-desc-g {
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* Silver */
+    .sponsor-card--silver { padding: 32px 20px; }
+    .sponsor-logo-s {
+      max-width: 180px;
+      aspect-ratio: 3 / 2;
+      margin: 0 auto 12px;
+    }
+    .sponsor-name--silver {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* Bronze */
+    .sponsor-card--bronze { padding: 24px 16px; }
+    .sponsor-logo-b {
+      max-width: 140px;
+      aspect-ratio: 3 / 2;
+      margin: 0 auto 8px;
+    }
+    .sponsor-name--bronze {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* Individual */
+    .sponsor-card--individual {
+      padding: 32px 16px;
+      text-align: center;
+    }
+    .sponsor-photo-i {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      background: #f0f0f0;
+      border: 1px solid #dddddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
       color: #888888;
     }
-    .footer-copyright {
+    .sponsor-name--individual {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* ===== Staff ===== */
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .staff-card {
       background: #f0f0f0;
-      margin-top: 60px;
-      padding: 16px 0;
-      text-align: center;
-      font-size: 12px;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      padding: 24px;
+      align-self: start;
+    }
+    .staff-card-header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .staff-photo {
+      flex: 3;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
       color: #888888;
+    }
+    .staff-right {
+      flex: 7;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .staff-name {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .staff-bio-wrap {
+      margin-bottom: 10px;
+    }
+    .staff-bio {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #333333;
+    }
+    .staff-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .staff-link {
+      display: flex;
+      align-items: center;
+      color: #333333;
+    }
+    .staff-link .material-icons {
+      font-size: 20px;
+    }
+
+    /* ===== Modal ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal.is-open {
+      display: flex;
+    }
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .modal-card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 4px;
+      padding: 48px 56px;
+      width: 100%;
+      max-width: 840px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333333;
+      display: flex;
+      align-items: center;
+    }
+    .modal-speaker-info {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #dddddd;
+    }
+    .modal-speaker-thumb {
+      width: 180px;
+      height: 180px;
+      flex-shrink: 0;
+      background: #f0f0f0;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #888888;
+    }
+    .modal-speaker-name {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .modal-speaker-affiliation,
+    .modal-speaker-role-text {
+      font-size: 16px;
+      color: #888888;
+      line-height: 1.6;
+    }
+    .modal-session-title {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .modal-session-desc {
+      font-size: 16px;
       line-height: 2;
     }
 
@@ -374,6 +1024,7 @@
     @media (max-width: 1023px) {
       .header-nav { display: none; }
       .header-cta { display: none; }
+      .hero-cta { display: inline-flex; }
       .hamburger { display: flex; }
 
       .container { padding: 0 24px; }
@@ -383,10 +1034,30 @@
 
       .hero-heading { padding-bottom: 24px; }
       .hero-h1 { font-size: 28px; }
-      .hero-scroll { padding: 20px 24px; }
+      .hero-scroll { padding: 20px 0; }
 
-      .footer-inner { flex-direction: column; gap: 40px; }
-      .footer-nav { flex-wrap: wrap; gap: 32px; }
+      .speaker-category-title { margin-top: 40px; }
+      .speaker-category:first-child .speaker-category-title { margin-top: 0; }
+      .speaker-item { flex-direction: column; gap: 24px; padding: 32px 0; }
+      .speaker-item--reverse { flex-direction: column; }
+      .speaker-photo-col { width: 70%; margin: 0 auto; }
+      .speaker-btn { align-self: stretch; text-align: center; }
+      .modal-card { padding: 32px; }
+
+      .sponsor-grid--gold     { grid-template-columns: 1fr; }
+      .sponsor-grid--silver   { grid-template-columns: repeat(2, 1fr); }
+      .sponsor-grid--bronze   { grid-template-columns: repeat(2, 1fr); }
+      .sponsor-grid--individual { grid-template-columns: repeat(3, 1fr); }
+      .sponsor-card--platinum { flex-direction: column; }
+      .sponsor-logo-p { width: 100%; max-width: 320px; }
+
+      .access-columns { flex-direction: column; }
+      .access-map { height: 320px; }
+
+      .staff-grid { grid-template-columns: 1fr; }
+      .content-grid { grid-template-columns: repeat(2, 1fr); }
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .blog-category { margin-bottom: 48px; }
     }
 
     /* ===== Responsive: Mobile ===== */
@@ -398,13 +1069,42 @@
 
       .section-heading h2 { font-size: 28px; }
 
-      .placeholder--hero { height: 320px; }
+      .placeholder--hero { height: 400px; }
       .hero-heading { padding-bottom: 20px; }
-      .hero-scroll { padding: 16px 16px; }
+      .hero-scroll { padding: 16px 0; }
       .hero-sub-top { font-size: 12px; }
-      .hero-meta-item { font-size: 12px; }
+      .hero-meta-item { font-size: 16px; }
+      .hero-meta-item .material-icons { font-size: 20px; }
 
-      .footer-nav { flex-direction: column; gap: 24px; }
+      .theme-desc br { display: none; }
+
+      .schedule-grid { gap: 12px; }
+      .schedule-item { flex-direction: column; gap: 6px; }
+      .schedule-time { font-size: 14px; width: auto; }
+      .schedule-title { font-size: 15px; }
+
+      .speaker-category-title { font-size: 24px; }
+      .speaker-name { font-size: 24px; }
+      .speaker-photo-col { width: 80%; }
+      .modal-session-title { font-size: 20px; }
+      .modal-card { padding: 20px 16px; }
+      .modal-speaker-thumb { width: 100px; height: 100px; }
+
+      .sponsor-grid--silver   { grid-template-columns: 1fr; }
+      .sponsor-grid--bronze   { grid-template-columns: 1fr 1fr; }
+      .sponsor-grid--individual { grid-template-columns: repeat(2, 1fr); }
+      .sponsor-logo-col { width: 100%; flex-shrink: 1; }
+      .sponsor-logo-p { width: 100%; max-width: none; }
+
+      .access-map-col { width: 100%; flex: none; }
+      .access-info-col { width: 100%; flex: none; }
+      .access-map { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+
+      .staff-card { padding: 16px; }
+      .content-grid { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-category-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+      .blog-category { margin-bottom: 40px; }
     }
   </style>
 </head>
@@ -426,13 +1126,11 @@
           <ul class="header-nav-list">
             <li class="header-nav-item"><a href="#news">ニュース</a></li>
             <li class="header-nav-item"><a href="#theme">テーマ</a></li>
-            <li class="header-nav-item"><a href="#message">メッセージ</a></li>
             <li class="header-nav-item"><a href="#schedule">スケジュール</a></li>
             <li class="header-nav-item"><a href="#speakers">登壇者</a></li>
-            <li class="header-nav-item"><a href="#sponsor">スポンサー</a></li>
             <li class="header-nav-item"><a href="#access">アクセス</a></li>
             <li class="header-nav-item"><a href="#staff">スタッフ</a></li>
-            <li class="header-nav-item"><a href="#note">note</a></li>
+            <li class="header-nav-item"><a href="#blog">ブログ</a></li>
           </ul>
         </nav>
 
@@ -458,13 +1156,11 @@
     <ul class="nav-overlay-list">
       <li><a href="#news" class="js-nav-link">ニュース</a></li>
       <li><a href="#theme" class="js-nav-link">テーマ</a></li>
-      <li><a href="#message" class="js-nav-link">メッセージ</a></li>
       <li><a href="#schedule" class="js-nav-link">スケジュール</a></li>
       <li><a href="#speakers" class="js-nav-link">登壇者</a></li>
-      <li><a href="#sponsor" class="js-nav-link">スポンサー</a></li>
       <li><a href="#access" class="js-nav-link">アクセス</a></li>
       <li><a href="#staff" class="js-nav-link">スタッフ</a></li>
-      <li><a href="#note" class="js-nav-link">note</a></li>
+      <li><a href="#blog" class="js-nav-link">ブログ</a></li>
       <li class="nav-overlay-cta"><a href="#" class="btn btn--primary">参加登録する</a></li>
     </ul>
   </div>
@@ -492,6 +1188,9 @@
                   パシフィコ横浜ノース
                 </span>
               </div>
+              <div class="hero-cta">
+                <a href="#" class="btn btn--primary">参加登録する</a>
+              </div>
             </div>
           </div>
         </div>
@@ -499,6 +1198,8 @@
       <!-- イベント画像 横スクロールエリア -->
       <div class="hero-scroll">
         <div class="hero-scroll-inner">
+          <div class="placeholder hero-scroll-item">（画像）</div>
+          <div class="placeholder hero-scroll-item">（画像）</div>
           <div class="placeholder hero-scroll-item">（画像）</div>
           <div class="placeholder hero-scroll-item">（画像）</div>
           <div class="placeholder hero-scroll-item">（画像）</div>
@@ -514,9 +1215,21 @@
       <div class="container">
         <div class="section-heading">
           <h2>ニュース</h2>
-          <p>最新情報</p>
         </div>
-        <div class="placeholder placeholder--content">（更新情報リスト）</div>
+        <ul class="news-list">
+          <li class="news-item">
+            <time class="news-date">2026.10.20</time>
+            <span class="news-title">タイムスケジュールを公開しました</span>
+          </li>
+          <li class="news-item">
+            <time class="news-date">2026.09.15</time>
+            <span class="news-title"><a href="#">スポンサーチームの紹介記事</a>がnoteにアップされました</span>
+          </li>
+          <li class="news-item">
+            <time class="news-date">2026.08.01</time>
+            <span class="news-title"><a href="#">登壇者インタビュー記事</a>をnoteで公開しました</span>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -525,9 +1238,11 @@
       <div class="container">
         <div class="section-heading">
           <h2>テーマ</h2>
-          <p>群青の羅針盤</p>
         </div>
-        <div class="placeholder placeholder--content">（テーマ説明テキスト）</div>
+        <div class="theme-body">
+          <p class="theme-title">群青の羅針盤</p>
+          <p class="theme-desc">BacklogやAIがベースにある世界で、私たちが目指すべきチームの姿を共に考え、<br>明日から現場で「実践」するための知恵を双方向で分かち合う。<br>そんな場を目指しています。</p>
+        </div>
       </div>
     </section>
 
@@ -536,9 +1251,18 @@
       <div class="container">
         <div class="section-heading">
           <h2>メッセージ</h2>
-          <p>実行委員長挨拶</p>
         </div>
-        <div class="placeholder placeholder--content">（メッセージテキスト）</div>
+        <div class="message-columns">
+          <div class="message-col-left">
+            <div class="placeholder message-photo">（写真）</div>
+            <p class="message-role">実行委員長</p>
+            <p class="message-name">髙木俊輔</p>
+            <p class="message-profile-text">プロフィール文が入りますプロフィール文が入りますプロフィール文が入りますプロフィール文が入ります。プロフィール文が入りますプロフィール文が入ります。</p>
+          </div>
+          <div class="message-col-right">
+            <p class="message-greeting">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -547,138 +1271,998 @@
       <div class="container">
         <div class="section-heading">
           <h2>タイムスケジュール</h2>
-          <p>2ホール制</p>
         </div>
-        <div class="placeholder placeholder--content">（タイムテーブル）</div>
+        <div class="schedule-grid">
+          <div class="schedule-hall">
+            <h3 class="schedule-hall-title">Aホール</h3>
+            <div class="schedule-item">
+              <div class="schedule-time">10:15–10:45</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">基調講演</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">11:00–11:45</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">招待講演</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">12:00–12:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">公募セッション</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">13:00–13:45</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">ヌーラボ推薦枠</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">14:00–14:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">公募セッション</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">14:45–15:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">招待講演</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">15:45–16:15</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">公募セッション</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">16:30–17:00</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">ヌーラボ推薦枠</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:15–17:45</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">公募セッション</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:45–18:00</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">クロージング</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+          </div>
+          <div class="schedule-hall">
+            <h3 class="schedule-hall-title">Bホール</h3>
+            <div class="schedule-item">
+              <div class="schedule-time">10:15–10:45</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">ワークショップ</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">11:00–11:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">公募セッション</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">13:00–14:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">ワークショップ</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">14:45–15:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">公募セッション</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">16:00–17:30</div>
+              <div class="schedule-body">
+                <span class="schedule-tag">ワークショップ</span>
+                <p class="schedule-title">セッションタイトルが入ります</p>
+                <p class="schedule-speaker">登壇者名 / 所属テキストが入ります</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="schedule-note">※タイムスケジュールは予告なく変更になる場合がございます。予めご了承ください。</p>
       </div>
     </section>
 
-    <!-- ⑥ 登壇者 -->
-    <section id="speakers" class="section--gray">
+    <!-- ⑥ 会場内コンテンツ -->
+    <section id="contents" class="section--gray">
+      <div class="container">
+        <div class="section-heading">
+          <h2>会場内コンテンツ</h2>
+        </div>
+        <div class="content-grid">
+
+          <div class="content-card">
+            <div class="content-card-img">（画像）</div>
+            <div class="content-card-body">
+              <p class="content-card-title">コンテンツタイトルが入ります</p>
+              <p class="content-card-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-img">（画像）</div>
+            <div class="content-card-body">
+              <p class="content-card-title">コンテンツタイトルが入ります</p>
+              <p class="content-card-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-img">（画像）</div>
+            <div class="content-card-body">
+              <p class="content-card-title">コンテンツタイトルが入ります</p>
+              <p class="content-card-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 登壇者 -->
+    <section id="speakers" class="section">
       <div class="container">
         <div class="section-heading">
           <h2>登壇者</h2>
-          <p>基調講演・招待講演・公募セッション・ヌーラボ推薦枠・ワークショップ</p>
         </div>
-        <div class="placeholder placeholder--content">（登壇者一覧 ※表示方法要検討）</div>
+
+        <!-- 基調講演 -->
+        <div class="speaker-category">
+          <h3 class="speaker-category-title">基調講演</h3>
+
+          <!-- 1人目: 写真左 -->
+          <div class="speaker-item">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">株式会社フューチャーワークス</p>
+              <p class="speaker-role">Chief Product Officer</p>
+              <p class="speaker-name">山田 太郎</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                <a href="#" class="speaker-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s01">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+
+          <!-- 2人目: 写真右 -->
+          <div class="speaker-item speaker-item--reverse">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">デジタル推進株式会社</p>
+              <p class="speaker-role">プロジェクトマネジメント部 部長</p>
+              <p class="speaker-name">佐藤 花子</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s02">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 招待講演 -->
+        <div class="speaker-category">
+          <h3 class="speaker-category-title">招待講演</h3>
+
+          <!-- 3人目: 写真左 -->
+          <div class="speaker-item">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">株式会社イノベーションラボ</p>
+              <p class="speaker-role">代表取締役 CEO</p>
+              <p class="speaker-name">鈴木 一郎</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                <a href="#" class="speaker-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s03">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 公募セッション -->
+        <div class="speaker-category">
+          <h3 class="speaker-category-title">公募セッション</h3>
+
+          <!-- 4人目: 写真右 -->
+          <div class="speaker-item speaker-item--reverse">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">フリーランス</p>
+              <p class="speaker-role">プロジェクトマネージャー</p>
+              <p class="speaker-name">中村 美咲</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s04">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+
+          <!-- 5人目: 写真左 -->
+          <div class="speaker-item">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">テクノロジー株式会社</p>
+              <p class="speaker-role">シニアエンジニア / スクラムマスター</p>
+              <p class="speaker-name">田中 健一</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                <a href="#" class="speaker-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s05">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ヌーラボ推薦枠 -->
+        <div class="speaker-category">
+          <h3 class="speaker-category-title">ヌーラボ推薦枠</h3>
+
+          <!-- 6人目: 写真右 -->
+          <div class="speaker-item speaker-item--reverse">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">株式会社ヌーラボ</p>
+              <p class="speaker-role">カスタマーサクセス部 マネージャー</p>
+              <p class="speaker-name">小林 明子</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                <a href="#" class="speaker-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s06">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ワークショップ -->
+        <div class="speaker-category">
+          <h3 class="speaker-category-title">ワークショップ</h3>
+
+          <!-- 7人目: 写真左 -->
+          <div class="speaker-item">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">合同会社アジャイルコア</p>
+              <p class="speaker-role">アジャイルコーチ / 認定スクラムマスター</p>
+              <p class="speaker-name">渡辺 誠</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s07">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+
+          <!-- 8人目: 写真右 -->
+          <div class="speaker-item speaker-item--reverse">
+            <div class="speaker-photo-col">
+              <div class="placeholder speaker-photo">（写真）</div>
+            </div>
+            <div class="speaker-text-col">
+              <p class="speaker-affiliation">株式会社デジタルデザイン</p>
+              <p class="speaker-role">UXデザイナー / プロダクトオーナー</p>
+              <p class="speaker-name">高橋 律子</p>
+              <p class="speaker-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              <div class="speaker-links">
+                <a href="#" class="speaker-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                <a href="#" class="speaker-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+              </div>
+              <button class="btn btn--secondary speaker-btn" data-modal="modal-s08">セッション内容を見る<span class="material-icons">open_in_full</span></button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- ⑦ スポンサー -->
-    <section id="sponsor" class="section">
+    <!-- ⑧ スポンサー -->
+    <section id="sponsor" class="section--gray">
       <div class="container">
         <div class="section-heading">
           <h2>スポンサー</h2>
-          <p>プラチナ・ゴールド・シルバー・ブロンズ・個人スポンサー</p>
         </div>
-        <div class="placeholder placeholder--content">（スポンサー一覧 ※表示方法要検討）</div>
+
+        <!-- プラチナ -->
+        <div class="sponsor-tier">
+          <h4 class="sponsor-tier-label">プラチナスポンサー</h4>
+          <div class="sponsor-grid sponsor-grid--platinum">
+            <div class="sponsor-card sponsor-card--platinum">
+              <div class="sponsor-logo-col">
+                <div class="placeholder sponsor-logo-p">（ロゴ）</div>
+              </div>
+              <div class="sponsor-info">
+                <p class="sponsor-name--platinum">株式会社プラチナパートナー</p>
+                <p class="sponsor-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ゴールド -->
+        <div class="sponsor-tier">
+          <h4 class="sponsor-tier-label">ゴールドスポンサー</h4>
+          <div class="sponsor-grid sponsor-grid--gold">
+            <div class="sponsor-card sponsor-card--gold">
+              <div class="placeholder sponsor-logo-g">（ロゴ）</div>
+              <p class="sponsor-name--gold">株式会社ゴールドテクノロジー</p>
+              <p class="sponsor-desc-g">テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入ります。</p>
+            </div>
+            <div class="sponsor-card sponsor-card--gold">
+              <div class="placeholder sponsor-logo-g">（ロゴ）</div>
+              <p class="sponsor-name--gold">合同会社ゴールドソリューションズ</p>
+              <p class="sponsor-desc-g">テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入ります。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- シルバー -->
+        <div class="sponsor-tier">
+          <h4 class="sponsor-tier-label">シルバースポンサー</h4>
+          <div class="sponsor-grid sponsor-grid--silver">
+            <div class="sponsor-card sponsor-card--silver">
+              <div class="placeholder sponsor-logo-s">（ロゴ）</div>
+              <p class="sponsor-name--silver">株式会社シルバーワークス</p>
+            </div>
+            <div class="sponsor-card sponsor-card--silver">
+              <div class="placeholder sponsor-logo-s">（ロゴ）</div>
+              <p class="sponsor-name--silver">シルバービジネス株式会社</p>
+            </div>
+            <div class="sponsor-card sponsor-card--silver">
+              <div class="placeholder sponsor-logo-s">（ロゴ）</div>
+              <p class="sponsor-name--silver">合同会社シルバーデザイン</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ブロンズ -->
+        <div class="sponsor-tier">
+          <h4 class="sponsor-tier-label">ブロンズスポンサー</h4>
+          <div class="sponsor-grid sponsor-grid--bronze">
+            <div class="sponsor-card sponsor-card--bronze">
+              <div class="placeholder sponsor-logo-b">（ロゴ）</div>
+              <p class="sponsor-name--bronze">株式会社ブロンズアルファ</p>
+            </div>
+            <div class="sponsor-card sponsor-card--bronze">
+              <div class="placeholder sponsor-logo-b">（ロゴ）</div>
+              <p class="sponsor-name--bronze">ブロンズベータ株式会社</p>
+            </div>
+            <div class="sponsor-card sponsor-card--bronze">
+              <div class="placeholder sponsor-logo-b">（ロゴ）</div>
+              <p class="sponsor-name--bronze">合同会社ブロンズガンマ</p>
+            </div>
+            <div class="sponsor-card sponsor-card--bronze">
+              <div class="placeholder sponsor-logo-b">（ロゴ）</div>
+              <p class="sponsor-name--bronze">株式会社ブロンズデルタ</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 個人スポンサー -->
+        <div class="sponsor-tier">
+          <h4 class="sponsor-tier-label">個人スポンサー</h4>
+          <div class="sponsor-grid sponsor-grid--individual">
+            <div class="sponsor-card sponsor-card--individual">
+              <div class="sponsor-photo-i">（写真）</div>
+              <p class="sponsor-name--individual">山田 太郎</p>
+            </div>
+            <div class="sponsor-card sponsor-card--individual">
+              <div class="sponsor-photo-i">（写真）</div>
+              <p class="sponsor-name--individual">佐藤 花子</p>
+            </div>
+            <div class="sponsor-card sponsor-card--individual">
+              <div class="sponsor-photo-i">（写真）</div>
+              <p class="sponsor-name--individual">鈴木 一郎</p>
+            </div>
+            <div class="sponsor-card sponsor-card--individual">
+              <div class="sponsor-photo-i">（写真）</div>
+              <p class="sponsor-name--individual">中村 美咲</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- ⑧ アクセス -->
-    <section id="access" class="section--gray">
+    <!-- ⑨ アクセス -->
+    <section id="access" class="section">
       <div class="container">
         <div class="section-heading">
           <h2>アクセス</h2>
-          <p>会場へのアクセス</p>
         </div>
-        <div class="placeholder placeholder--map">（地図）</div>
-        <div class="placeholder placeholder--content access-detail">（住所・最寄駅・出口・徒歩分数・経路詳細）</div>
+        <div class="access-columns">
+
+          <!-- 地図 -->
+          <div class="access-map-col">
+            <div class="placeholder access-map">（地図）</div>
+            <div class="access-map-action">
+              <a href="#" class="access-expand-link" target="_blank" rel="noopener">
+                <span class="access-expand-link-text">Googleマップを開く</span>
+                <span class="material-icons">open_in_new</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 住所・最寄駅 -->
+          <div class="access-info-col">
+            <p class="access-venue">パシフィコ横浜ノース</p>
+            <p class="access-address">
+              〒220-0012<br>
+              神奈川県横浜市西区みなとみらい1-1-1
+            </p>
+
+            <div class="access-stations">
+              <p class="access-stations-label">最寄駅</p>
+              <ul class="access-station-list">
+                <li class="access-station-item">
+                  <span class="material-icons">train</span>
+                  <span>みなとみらい線 みなとみらい駅 より<span class="access-station-walk">徒歩5分</span></span>
+                </li>
+                <li class="access-station-item">
+                  <span class="material-icons">train</span>
+                  <span>JR・横浜市営地下鉄 桜木町駅 より<span class="access-station-walk">徒歩12分</span></span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="https://www.pacifico.co.jp/access" class="btn btn--secondary" target="_blank" rel="noopener">
+              詳しいアクセス方法を見る<span class="material-icons">open_in_new</span>
+            </a>
+          </div>
+
+        </div>
       </div>
     </section>
 
-    <!-- ⑨ スタッフ紹介 -->
-    <section id="staff" class="section">
+    <!-- ⑩ スタッフ紹介 -->
+    <section id="staff" class="section--gray">
       <div class="container">
         <div class="section-heading">
-          <h2>スタッフ紹介</h2>
-          <p>運営スタッフ</p>
+          <h2>スタッフ</h2>
         </div>
-        <div class="placeholder placeholder--content">（スタッフ一覧 ※表示方法要検討）</div>
+        <div class="staff-grid">
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">田中 健太</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">佐藤 美咲</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">鈴木 太郎</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">高橋 花子</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">伊藤 一郎</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">渡辺 陽子</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">中村 誠</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">小林 真理</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">加藤 大輔</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">吉田 さくら</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">山本 雄二</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">松本 恵</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">井上 俊介</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">木村 奈々</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">清水 隆</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                  <a href="#" class="staff-link" aria-label="Webサイト"><span class="material-icons">language</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="staff-card">
+            <div class="staff-card-header">
+              <div class="staff-photo">（写真）</div>
+              <div class="staff-right">
+                <p class="staff-name">山田 由美</p>
+                <div class="staff-bio-wrap">
+                  <p class="staff-bio">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+                </div>
+                <div class="staff-links">
+                  <a href="#" class="staff-link" aria-label="X（旧Twitter）"><span class="material-icons">alternate_email</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
-    <!-- ⑩ note -->
-    <section id="note" class="section--gray">
+    <!-- ⑪ ブログ -->
+    <section id="blog" class="section">
       <div class="container">
         <div class="section-heading">
-          <h2>note</h2>
-          <p>カテゴリ別記事一覧（※セクションタイトル要検討）</p>
+          <h2>ブログ</h2>
         </div>
-        <div class="placeholder placeholder--content">（note記事一覧・カテゴリ絞り込み）</div>
+
+        <div class="blog-category">
+          <div class="blog-category-header">
+            <h3 class="blog-category-title">運営チーム紹介</h3>
+            <a href="#" class="btn btn--secondary" target="_blank" rel="noopener">一覧を見る<span class="material-icons">open_in_new</span></a>
+          </div>
+          <div class="blog-grid">
+            <a href="#" class="blog-card">
+              <div class="blog-card-img">（画像）</div>
+              <div class="blog-card-body">
+                <p class="blog-card-title">記事タイトルが入ります記事タイトルが入ります記事タイトルが入ります</p>
+              </div>
+            </a>
+            <a href="#" class="blog-card">
+              <div class="blog-card-img">（画像）</div>
+              <div class="blog-card-body">
+                <p class="blog-card-title">記事タイトルが入ります記事タイトルが入ります記事タイトルが入ります</p>
+              </div>
+            </a>
+            <a href="#" class="blog-card">
+              <div class="blog-card-img">（画像）</div>
+              <div class="blog-card-body">
+                <p class="blog-card-title">記事タイトルが入ります記事タイトルが入ります記事タイトルが入ります</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="blog-category">
+          <div class="blog-category-header">
+            <h3 class="blog-category-title">スポンサーインタビュー</h3>
+            <a href="#" class="btn btn--secondary" target="_blank" rel="noopener">一覧を見る<span class="material-icons">open_in_new</span></a>
+          </div>
+          <div class="blog-grid">
+            <a href="#" class="blog-card">
+              <div class="blog-card-img">（画像）</div>
+              <div class="blog-card-body">
+                <p class="blog-card-title">記事タイトルが入ります記事タイトルが入ります記事タイトルが入ります</p>
+              </div>
+            </a>
+            <a href="#" class="blog-card">
+              <div class="blog-card-img">（画像）</div>
+              <div class="blog-card-body">
+                <p class="blog-card-title">記事タイトルが入ります記事タイトルが入ります記事タイトルが入ります</p>
+              </div>
+            </a>
+            <a href="#" class="blog-card">
+              <div class="blog-card-img">（画像）</div>
+              <div class="blog-card-body">
+                <p class="blog-card-title">記事タイトルが入ります記事タイトルが入ります記事タイトルが入ります</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- ⑪ 各種SNS -->
+    <!-- ⑫ 各種SNS -->
     <section class="section">
       <div class="container">
         <div class="section-heading">
           <h2>各種SNS</h2>
-          <p>公式アカウント</p>
         </div>
         <ul class="sns-list">
-          <li><div class="placeholder placeholder--sns">X（旧Twitter）</div></li>
-          <li><div class="placeholder placeholder--sns">Facebook</div></li>
-          <li><div class="placeholder placeholder--sns">YouTube</div></li>
+          <li>
+            <a href="#" class="sns-link" aria-label="X（旧Twitter）" target="_blank" rel="noopener">
+              <span class="sns-icon">X</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sns-link" aria-label="Facebook" target="_blank" rel="noopener">
+              <span class="sns-icon">f</span>
+            </a>
+          </li>
         </ul>
       </div>
     </section>
 
   </main>
 
-  <!-- ===== Footer ===== -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
+  <!-- ===== Modals ===== -->
 
-        <!-- 左: ロゴ＋住所 -->
-        <div class="footer-left">
-          <div class="footer-logo">
-            <div class="footer-logo-mark">JBUG</div>
-            <span class="footer-logo-text">Backlog World 2026</span>
-          </div>
-          <p class="footer-address">
-            JBUG Backlog World 2026 実行委員会<br>
-            〒000-0000 （会場住所）<br>
-            TEL: 000-0000-0000
-          </p>
+  <div id="modal-s01" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s01-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">山田 太郎</p>
+          <p class="modal-speaker-affiliation">株式会社フューチャーワークス</p>
+          <p class="modal-speaker-role-text">Chief Product Officer</p>
         </div>
-
-        <!-- 右: ページ動線 -->
-        <nav class="footer-nav" aria-label="フッターナビゲーション">
-          <div class="footer-nav-col">
-            <h3>イベント情報</h3>
-            <ul>
-              <li><a href="#theme">テーマ</a></li>
-              <li><a href="#schedule">タイムスケジュール</a></li>
-              <li><a href="#speakers">登壇者</a></li>
-            </ul>
-          </div>
-          <div class="footer-nav-col">
-            <h3>参加・支援</h3>
-            <ul>
-              <li><a href="#news">ニュース</a></li>
-              <li><a href="#sponsor">スポンサー</a></li>
-            </ul>
-          </div>
-          <div class="footer-nav-col">
-            <h3>その他</h3>
-            <ul>
-              <li><a href="#message">メッセージ</a></li>
-              <li><a href="#access">アクセス</a></li>
-              <li><a href="#staff">スタッフ紹介</a></li>
-              <li><a href="#note">note</a></li>
-            </ul>
-          </div>
-        </nav>
-
       </div>
+      <h4 id="modal-s01-title" class="modal-session-title">バックログが拓く新時代のチームマネジメント──実践から見えてきた現場のリアル</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
     </div>
-    <!-- コピーライト -->
-    <div class="footer-copyright">
-      <p>&copy; 2026 JBUG Backlog World 2026 実行委員会</p>
+  </div>
+
+  <div id="modal-s02" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s02-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">佐藤 花子</p>
+          <p class="modal-speaker-affiliation">デジタル推進株式会社</p>
+          <p class="modal-speaker-role-text">プロジェクトマネジメント部 部長</p>
+        </div>
+      </div>
+      <h4 id="modal-s02-title" class="modal-session-title">プロジェクト管理2.0──ツールと人を繋ぐプロセスデザインのこれから</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
     </div>
-  </footer>
+  </div>
+
+  <div id="modal-s03" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s03-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">鈴木 一郎</p>
+          <p class="modal-speaker-affiliation">株式会社イノベーションラボ</p>
+          <p class="modal-speaker-role-text">代表取締役 CEO</p>
+        </div>
+      </div>
+      <h4 id="modal-s03-title" class="modal-session-title">失敗と成功を繰り返した10年が教えてくれた、強いチームの作り方</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+    </div>
+  </div>
+
+  <div id="modal-s04" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s04-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">中村 美咲</p>
+          <p class="modal-speaker-affiliation">フリーランス</p>
+          <p class="modal-speaker-role-text">プロジェクトマネージャー</p>
+        </div>
+      </div>
+      <h4 id="modal-s04-title" class="modal-session-title">フリーランスPMが語るプロジェクト管理の悩みと解決策──バックログで乗り越えた壁</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+    </div>
+  </div>
+
+  <div id="modal-s05" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s05-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">田中 健一</p>
+          <p class="modal-speaker-affiliation">テクノロジー株式会社</p>
+          <p class="modal-speaker-role-text">シニアエンジニア / スクラムマスター</p>
+        </div>
+      </div>
+      <h4 id="modal-s05-title" class="modal-session-title">エンジニアから見たバックログ活用術──開発現場でチームが変わった瞬間</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+    </div>
+  </div>
+
+  <div id="modal-s06" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s06-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">小林 明子</p>
+          <p class="modal-speaker-affiliation">株式会社ヌーラボ</p>
+          <p class="modal-speaker-role-text">カスタマーサクセス部 マネージャー</p>
+        </div>
+      </div>
+      <h4 id="modal-s06-title" class="modal-session-title">ヌーラボが考える、Backlog × AIの未来──ユーザーの声から生まれた次の一手</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+    </div>
+  </div>
+
+  <div id="modal-s07" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s07-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">渡辺 誠</p>
+          <p class="modal-speaker-affiliation">合同会社アジャイルコア</p>
+          <p class="modal-speaker-role-text">アジャイルコーチ / 認定スクラムマスター</p>
+        </div>
+      </div>
+      <h4 id="modal-s07-title" class="modal-session-title">【WS】チームの課題を可視化する思考フレーム実践──付箋とバックログで変えるチームの風景</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+    </div>
+  </div>
+
+  <div id="modal-s08" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-s08-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <button class="modal-close" aria-label="閉じる"><span class="material-icons">close</span></button>
+      <div class="modal-speaker-info">
+        <div class="modal-speaker-thumb">（写真）</div>
+        <div class="modal-speaker-meta">
+          <p class="modal-speaker-name">高橋 律子</p>
+          <p class="modal-speaker-affiliation">株式会社デジタルデザイン</p>
+          <p class="modal-speaker-role-text">UXデザイナー / プロダクトオーナー</p>
+        </div>
+      </div>
+      <h4 id="modal-s08-title" class="modal-session-title">【WS】UXデザインの視点で磨くプロジェクト計画書──ユーザーストーリーからバックログへ</h4>
+      <p class="modal-session-desc">テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入りますテキストが入りますテキストが入ります。テキストが入りますテキストが入りますテキストが入ります。</p>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <div class="closing-visual">
+    <div class="placeholder placeholder--hero">（メインビジュアル）</div>
+  </div>
 
   <script>
     const hamburger = document.getElementById('js-hamburger');
@@ -700,6 +2284,44 @@
     navClose.addEventListener('click', closeOverlay);
     navLinks.forEach(function(link) {
       link.addEventListener('click', closeOverlay);
+    });
+
+    // Modal
+    var speakerBtns = document.querySelectorAll('.speaker-btn');
+    var modalCloseButtons = document.querySelectorAll('.modal-close');
+    var modalOverlays = document.querySelectorAll('.modal-overlay');
+
+    function openModal(modalId) {
+      var modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('is-open');
+        document.body.classList.add('no-scroll');
+      }
+    }
+
+    function closeAllModals() {
+      document.querySelectorAll('.modal.is-open').forEach(function(m) {
+        m.classList.remove('is-open');
+      });
+      document.body.classList.remove('no-scroll');
+    }
+
+    speakerBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        openModal(this.getAttribute('data-modal'));
+      });
+    });
+
+    modalCloseButtons.forEach(function(btn) {
+      btn.addEventListener('click', closeAllModals);
+    });
+
+    modalOverlays.forEach(function(overlay) {
+      overlay.addEventListener('click', closeAllModals);
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeAllModals(); }
     });
   </script>
 
